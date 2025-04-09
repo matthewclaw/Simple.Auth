@@ -4810,19 +4810,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\matthew.law\\.nuget\\packages\\": {}
+    "C:\\Users\\Matthew\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Simple.Auth.Demo.csproj",
+      "projectUniqueName": "C:\\Users\\Matthew\\source\\repos\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Simple.Auth.Demo.csproj",
       "projectName": "Simple.Auth.Demo",
-      "projectPath": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Simple.Auth.Demo.csproj",
-      "packagesPath": "C:\\Users\\matthew.law\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\obj\\",
+      "projectPath": "C:\\Users\\Matthew\\source\\repos\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Simple.Auth.Demo.csproj",
+      "packagesPath": "C:\\Users\\Matthew\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Matthew\\source\\repos\\Simple\\Simple.Auth\\Simple.Auth.Demo\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\matthew.law\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Matthew\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4830,15 +4837,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Simple.Auth.csproj": {
-              "projectPath": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Simple.Auth.csproj"
+            "C:\\Users\\Matthew\\source\\repos\\Simple\\Simple.Auth\\Simple.Auth\\Simple.Auth.csproj": {
+              "projectPath": "C:\\Users\\Matthew\\source\\repos\\Simple\\Simple.Auth\\Simple.Auth\\Simple.Auth.csproj"
             }
           }
         }
@@ -4852,7 +4858,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net8.0": {
@@ -4882,7 +4889,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
