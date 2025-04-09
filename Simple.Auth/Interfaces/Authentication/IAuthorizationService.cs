@@ -9,14 +9,11 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Interfaces.Authentication
 {
-    public interface IAuthorizationService
+    public interface IAuthorizationService:IHttpContextSwitchable
     {
         Task<bool> TryRefreshAccessAsync();
         Task<IEnumerable<Claim>> GetClaimsAsync();
         Task<(string accessToken, string refreshToken)> StartSessionAsync();
         Task<SessionState> GetSessionStateAsync();
-        void ForContext(HttpContext context);
-
-        void ForDefaultContext();
     }
 }
