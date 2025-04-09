@@ -1,0 +1,551 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\middleware\\simpleauthmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\middleware\\simpleauthmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\middleware\\handlers\\simpleauthorizationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\middleware\\handlers\\simpleauthorizationhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\interfaces\\authentication\\iauthorizationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\interfaces\\authentication\\iauthorizationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\authorizationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\authorizationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\cookietokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\cookietokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\bearertokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\bearertokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\httptokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\httptokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\stores\\refreshtokeninmemorystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\stores\\refreshtokeninmemorystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\interfaces\\stores\\irefreshtokenstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\interfaces\\stores\\irefreshtokenstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\models\\refreshtoken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\helpers\\httpcontextextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\helpers\\httpcontextextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\interfaces\\authentication\\itokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\interfaces\\authentication\\itokenaccessor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\enums\\sessionstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\enums\\sessionstate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\interfaces\\authentication\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\interfaces\\authentication\\itokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\requirements\\simplerequirement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\requirements\\simplerequirement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth.demo\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|solutionrelative:simple.auth.demo\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\jwttokenservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\services\\tokenservicebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\services\\tokenservicebase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth.demo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|solutionrelative:simple.auth.demo\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\builders\\authenticationoptionsbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\builders\\authenticationoptionsbuilder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\configuration\\authenticationoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\configuration\\authenticationoptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth.demo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{737309EF-2DD2-42A7-A0B8-FA0BD2F4B2EC}|Simple.Auth.Demo\\Simple.Auth.Demo.csproj|solutionrelative:simple.auth.demo\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\initializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\initializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\interfaces\\authentication\\iauthenticationscheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\interfaces\\authentication\\iauthenticationscheme.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\configuration\\cookieaccessoroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\configuration\\cookieaccessoroptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\attributes\\entitlementattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\attributes\\entitlementattribute.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|c:\\users\\matthew.law\\documents\\private\\repos\\nuget\\simple\\simple.auth\\simple.auth\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8C4B4A1E-5A5C-4815-84DB-74CD4D7C5D1E}|Simple.Auth\\Simple.Auth.csproj|solutionrelative:simple.auth\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 24,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HttpTokenAccessor.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\HttpTokenAccessor.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\HttpTokenAccessor.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\HttpTokenAccessor.cs*",
+              "RelativeToolTip": "Simple.Auth\\Services\\HttpTokenAccessor.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-08T07:04:45.991Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:140:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:137:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:136:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:135:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:134:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:139:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:141:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:142:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:143:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:144:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:145:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:146:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "SessionState.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Enums\\SessionState.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Enums\\SessionState.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Enums\\SessionState.cs",
+              "RelativeToolTip": "Simple.Auth\\Enums\\SessionState.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T15:18:46.181Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AuthorizationService.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\AuthorizationService.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\AuthorizationService.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\AuthorizationService.cs*",
+              "RelativeToolTip": "Simple.Auth\\Services\\AuthorizationService.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:54:22.111Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IAuthorizationService.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\IAuthorizationService.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Interfaces\\Authentication\\IAuthorizationService.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\IAuthorizationService.cs",
+              "RelativeToolTip": "Simple.Auth\\Interfaces\\Authentication\\IAuthorizationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:52:10.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SimpleAuthorizationHandler.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Middleware\\Handlers\\SimpleAuthorizationHandler.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Middleware\\Handlers\\SimpleAuthorizationHandler.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Middleware\\Handlers\\SimpleAuthorizationHandler.cs",
+              "RelativeToolTip": "Simple.Auth\\Middleware\\Handlers\\SimpleAuthorizationHandler.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAUwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:42:57.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SimpleAuthMiddleware.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Middleware\\SimpleAuthMiddleware.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Middleware\\SimpleAuthMiddleware.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Middleware\\SimpleAuthMiddleware.cs*",
+              "RelativeToolTip": "Simple.Auth\\Middleware\\SimpleAuthMiddleware.cs*",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAUwBcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:33:06.571Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CookieTokenAccessor.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\CookieTokenAccessor.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\CookieTokenAccessor.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\CookieTokenAccessor.cs*",
+              "RelativeToolTip": "Simple.Auth\\Services\\CookieTokenAccessor.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T07:43:49.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BearerTokenAccessor.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\BearerTokenAccessor.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\BearerTokenAccessor.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\BearerTokenAccessor.cs*",
+              "RelativeToolTip": "Simple.Auth\\Services\\BearerTokenAccessor.cs*",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACQAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T07:20:15.787Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HttpContextExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Helpers\\HttpContextExtensions.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Helpers\\HttpContextExtensions.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Helpers\\HttpContextExtensions.cs",
+              "RelativeToolTip": "Simple.Auth\\Helpers\\HttpContextExtensions.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAkwBAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T07:50:33.834Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "RefreshToken.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Models\\RefreshToken.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Models\\RefreshToken.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Models\\RefreshToken.cs",
+              "RelativeToolTip": "Simple.Auth\\Models\\RefreshToken.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T08:07:22.911Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IRefreshTokenStore.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Stores\\IRefreshTokenStore.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Interfaces\\Stores\\IRefreshTokenStore.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Stores\\IRefreshTokenStore.cs",
+              "RelativeToolTip": "Simple.Auth\\Interfaces\\Stores\\IRefreshTokenStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T08:10:34.272Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RefreshTokenInMemoryStore.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Stores\\RefreshTokenInMemoryStore.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Stores\\RefreshTokenInMemoryStore.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Stores\\RefreshTokenInMemoryStore.cs",
+              "RelativeToolTip": "Simple.Auth\\Stores\\RefreshTokenInMemoryStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T08:14:48.499Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SimpleRequirement.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Requirements\\SimpleRequirement.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Requirements\\SimpleRequirement.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Requirements\\SimpleRequirement.cs",
+              "RelativeToolTip": "Simple.Auth\\Requirements\\SimpleRequirement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:42:03.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Controllers\\AuthController.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "Simple.Auth\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAQwCkAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-04T14:11:54.582Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ITokenAccessor.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\ITokenAccessor.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Interfaces\\Authentication\\ITokenAccessor.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\ITokenAccessor.cs",
+              "RelativeToolTip": "Simple.Auth\\Interfaces\\Authentication\\ITokenAccessor.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAADwvxYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T07:18:44.515Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "Simple.Auth.Demo\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "Simple.Auth.Demo\\Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T13:25:16.878Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ITokenService.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\ITokenService.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Interfaces\\Authentication\\ITokenService.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\ITokenService.cs",
+              "RelativeToolTip": "Simple.Auth\\Interfaces\\Authentication\\ITokenService.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAuwBAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T08:04:43.39Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\appsettings.json",
+              "RelativeDocumentMoniker": "Simple.Auth.Demo\\appsettings.json",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\appsettings.json",
+              "RelativeToolTip": "Simple.Auth.Demo\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-04T13:15:33.398Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "AuthenticationOptions.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Configuration\\AuthenticationOptions.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Configuration\\AuthenticationOptions.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Configuration\\AuthenticationOptions.cs",
+              "RelativeToolTip": "Simple.Auth\\Configuration\\AuthenticationOptions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T08:00:38.482Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Initializer.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Initializer.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Initializer.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Initializer.cs",
+              "RelativeToolTip": "Simple.Auth\\Initializer.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAIBJwBMAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T10:04:32.332Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AuthenticationOptionsBuilder.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Builders\\AuthenticationOptionsBuilder.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Builders\\AuthenticationOptionsBuilder.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Builders\\AuthenticationOptionsBuilder.cs",
+              "RelativeToolTip": "Simple.Auth\\Builders\\AuthenticationOptionsBuilder.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwFEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T11:07:43.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "JwtTokenService.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\JwtTokenService.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\JwtTokenService.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\JwtTokenService.cs",
+              "RelativeToolTip": "Simple.Auth\\Services\\JwtTokenService.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAwwCwAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T08:44:05.52Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "TokenServiceBase.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\TokenServiceBase.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Services\\TokenServiceBase.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Services\\TokenServiceBase.cs",
+              "RelativeToolTip": "Simple.Auth\\Services\\TokenServiceBase.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAkwBkAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T13:59:26.827Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Program.cs",
+              "RelativeDocumentMoniker": "Simple.Auth.Demo\\Program.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth.Demo\\Program.cs",
+              "RelativeToolTip": "Simple.Auth.Demo\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-03T13:18:19.735Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "IAuthenticationScheme.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\IAuthenticationScheme.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Interfaces\\Authentication\\IAuthenticationScheme.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Interfaces\\Authentication\\IAuthenticationScheme.cs",
+              "RelativeToolTip": "Simple.Auth\\Interfaces\\Authentication\\IAuthenticationScheme.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T10:43:02.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "CookieAccessorOptions.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Configuration\\CookieAccessorOptions.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Configuration\\CookieAccessorOptions.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Configuration\\CookieAccessorOptions.cs",
+              "RelativeToolTip": "Simple.Auth\\Configuration\\CookieAccessorOptions.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAxwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T07:53:59.805Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "EntitlementAttribute.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Attributes\\EntitlementAttribute.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Attributes\\EntitlementAttribute.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Attributes\\EntitlementAttribute.cs",
+              "RelativeToolTip": "Simple.Auth\\Attributes\\EntitlementAttribute.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T11:04:26.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Class1.cs",
+              "RelativeDocumentMoniker": "Simple.Auth\\Class1.cs",
+              "ToolTip": "C:\\Users\\matthew.law\\Documents\\Private\\repos\\nuget\\Simple\\Simple.Auth\\Simple.Auth\\Class1.cs",
+              "RelativeToolTip": "Simple.Auth\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T06:59:45.093Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
