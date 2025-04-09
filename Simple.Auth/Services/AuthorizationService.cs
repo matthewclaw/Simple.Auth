@@ -17,11 +17,11 @@ namespace Simple.Auth.Services
     {
         protected readonly IHttpContextAccessor HttpContextAccessor;
         protected readonly IRefreshTokenStore RefreshTokenStore;
-        public readonly ITokenAccessor TokenAccessor;
+        public readonly HttpTokenAccessor TokenAccessor;
         protected readonly ITokenService TokenService;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
 
-        public AuthorizationService(IHttpContextAccessor httpContextAccessor, ITokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore)
+        public AuthorizationService(IHttpContextAccessor httpContextAccessor, HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
@@ -107,6 +107,16 @@ namespace Simple.Auth.Services
             }
             var clientIp = HttpContextAccessor.GetClientIpAddress();
             return storedToken.IpAddress == clientIp;
+        }
+
+        public void ForContext(HttpContext context)
+        {
+            TokenAccessor.ForContext(context);
+        }
+
+        public void ForDefaultContext()
+        {
+            TokenAccessor.ForDefaultContext();
         }
     }
 }

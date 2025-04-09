@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,5 +34,8 @@ namespace Simple.Auth.Interfaces.Authentication
         /// </summary>
         /// <param name="token"></param>
         void SetRefreshToken(string token);
+
+        void ForContext(HttpContext context);
+        void ForDefaultContext();
     }
 }

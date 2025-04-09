@@ -1,4 +1,5 @@
-﻿using Simple.Auth.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using Simple.Auth.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,8 @@ namespace Simple.Auth.Interfaces.Authentication
         Task<IEnumerable<Claim>> GetClaimsAsync();
         Task<(string accessToken, string refreshToken)> StartSessionAsync();
         Task<SessionState> GetSessionStateAsync();
+        void ForContext(HttpContext context);
+
+        void ForDefaultContext();
     }
 }

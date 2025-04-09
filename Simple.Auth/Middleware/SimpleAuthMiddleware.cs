@@ -21,7 +21,16 @@ namespace Simple.Auth.Middleware
 
         public virtual async Task InvokeAsync(HttpContext context)
         {
-            
+            try
+            {
+                AuthorizationService.ForContext(context);
+
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                AuthorizationService.ForDefaultContext();
+            }
         }
     }
 }

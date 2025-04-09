@@ -17,7 +17,7 @@ namespace Simple.Auth.Builders
         private Type? _tokenAccessorType;
         private Type? _tokenServiceType;
         private CookieAccessorOptions? _cookieAccessorOptions;
-        private Func<IServiceProvider, ITokenAccessor>? _tokenAccessorFactory;
+        private Func<IServiceProvider, HttpTokenAccessor>? _tokenAccessorFactory;
         private Func<IServiceProvider, ITokenService>? _tokenServiceFactory;
 
         /// <summary>
@@ -28,29 +28,6 @@ namespace Simple.Auth.Builders
         public AuthenticationOptionsBuilder WithConfiguration(IConfiguration configuration)
         {
             _configuration = configuration;
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the authentication to use a custom header accessor, providing a factory for creating instances of the accessor.
-        /// </summary>
-        /// <typeparam name="THeaderAccessor">The type of the custom header accessor, inheriting from BearerTokenAccessor.</typeparam>
-        /// <param name="factory">A factory function that resolves the custom header accessor from the service provider.</param>
-        /// <returns>The AuthenticationOptionsBuilder instance for chaining.</returns>
-        public AuthenticationOptionsBuilder UseAuthHeader<THeaderAccessor>(Func<IServiceProvider, THeaderAccessor> factory) where THeaderAccessor : BearerTokenAccessor
-        {
-            _tokenAccessorFactory = factory;
-            return this;
-        }
-
-        /// <summary>
-        /// Configures the authentication to use a custom header accessor.
-        /// </summary>
-        /// <typeparam name="THeaderAccessor">The type of the custom header accessor, inheriting from BearerTokenAccessor.</typeparam>
-        /// <returns>The AuthenticationOptionsBuilder instance for chaining.</returns>
-        public AuthenticationOptionsBuilder UseAuthHeader<THeaderAccessor>() where THeaderAccessor : BearerTokenAccessor
-        {
-            _tokenAccessorType = typeof(THeaderAccessor);
             return this;
         }
 
@@ -139,7 +116,7 @@ namespace Simple.Auth.Builders
         {
             if(_tokenAccessorFactory == null && _tokenAccessorType == null)
             {
-                throw new InvalidOperationException($"Either {nameof(UseAuthHeader)}, {nameof(UseCookies)} or {nameof(UseCookiesWithOptions)} must be called");
+                throw new InvalidOperationException($"Either {nameof(UseCookies)} or {nameof(UseCookiesWithOptions)} must be called");
             }
             var tokenAccessOptions = new TokenAccessOptions(_tokenAccessorType, _cookieAccessorOptions ?? CookieAccessorOptions.Default, _tokenAccessorFactory);
             if(_tokenServiceFactory == null && _tokenServiceType == null)

@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Simple.Auth.Interfaces.Authentication;
+using Simple.Auth.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +26,8 @@ namespace Simple.Auth.Configuration
     {
         public readonly Type? TokenAccessorType;
         public readonly CookieAccessorOptions? CookieAccessorOptions;
-        public readonly Func<IServiceProvider, ITokenAccessor>? ImplementationFactory;
-        public TokenAccessOptions(Type? tokenAccessorType, CookieAccessorOptions? cookieAccessorOptions, Func<IServiceProvider, ITokenAccessor>? implementationFactory)
+        public readonly Func<IServiceProvider, HttpTokenAccessor>? ImplementationFactory;
+        public TokenAccessOptions(Type? tokenAccessorType, CookieAccessorOptions? cookieAccessorOptions, Func<IServiceProvider, HttpTokenAccessor>? implementationFactory)
         {
             TokenAccessorType = tokenAccessorType;
             CookieAccessorOptions = cookieAccessorOptions;
@@ -35,7 +37,7 @@ namespace Simple.Auth.Configuration
     public class TokenServiceOptions
     {
         public readonly Type? ServiceType;
-        public readonly Func<IServiceProvider,ITokenService>? ImplementationFactory;
+        public readonly Func<IServiceProvider, ITokenService>? ImplementationFactory;
         public TokenServiceOptions(Type? serviceType, Func<IServiceProvider, ITokenService>? implementationFactory)
         {
             ServiceType = serviceType;
