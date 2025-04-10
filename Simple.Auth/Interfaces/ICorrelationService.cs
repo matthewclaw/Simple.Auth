@@ -10,6 +10,6 @@ namespace Simple.Auth.Interfaces
     {
         string GetCorrelationId();
         string GenerateCorrelationId();
-        string SetCorrelationId(string correlationId);
+        void SetCorrelationId(string correlationId);
     }
 }

@@ -16,6 +16,6 @@ namespace Simple.Auth.Interfaces.Authentication
         string GenerateRefreshToken();
         Task<bool> ValidateTokenAsync(string token);
         Task<(string accessToken, string refreshToken)> RefreshTokenAsync(string accessToken, string refreshToken);
-        Task<DateTimeOffset> GetTokenExpiry(string token);
+        DateTimeOffset GetTokenExpiry(string token);
     }
 }

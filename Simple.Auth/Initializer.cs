@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿//using Microsoft.Extensions.DependencyInjection;
 using Simple.Auth.Builders;
 using Simple.Auth.Configuration;
 using Simple.Auth.Interfaces.Authentication;
@@ -9,6 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Microsoft.AspNetCore.Builder;
+using Simple.Auth.Middleware;
+using Simple.Auth.Interfaces;
+using Simple.Auth.Interfaces.Stores;
+using Simple.Auth.Stores;
+using Simple.Auth.Requirements;
+using Microsoft.Extensions.DependencyInjection;
 namespace Simple.Auth
 {
     public static class Initializer
@@ -18,22 +25,50 @@ namespace Simple.Auth
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
             AuthenticationOptions authenticationOptions = builder.Build();
-            return services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)
+
+            services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
+            services.AddStores();
+
+            services.AddPolicies();
+
+            services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
+            services.AddScoped<ICorrelationService, CorrelationService>();
+            services.AddScoped<IAuthorizationService, AuthorizationService>();
+
+            return services;
+
+        }
+
+        private static IServiceCollection AddPolicies(this IServiceCollection services)
+        {
+
+            services.AddAuthorization( options =>
+            {
+                options.AddPolicy(Constants.Policies.DEFAULT, policy =>
+                policy.Requirements.Add(new SimpleRequirement()));
+            });
+            return services;
+        }
+
+        private static IServiceCollection AddStores(this IServiceCollection services)
+        {
+            services.AddScoped<IRefreshTokenStore, RefreshTokenInMemoryStore>();
+            return services;
         }
         private static IServiceCollection AddTokenAccessor(this IServiceCollection services, TokenAccessOptions options)
         {
             if (options.ImplementationFactory != null)
             {
-                services.AddScoped<ITokenAccessor>(options.ImplementationFactory);
+                services.AddScoped<HttpTokenAccessor>(options.ImplementationFactory);
                 return services;
             }
             if (typeof(CookieTokenAccessor).IsAssignableFrom(options.TokenAccessorType))
             {
                 services.AddScoped(services => options.CookieAccessorOptions!);
             }
-            services.AddScoped(typeof(ITokenAccessor), options.TokenAccessorType!);
+            services.AddScoped(typeof(HttpTokenAccessor), options.TokenAccessorType!);
             return services;
         }
         private static IServiceCollection AddTokenService(this IServiceCollection services, TokenServiceOptions options)

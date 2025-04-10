@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Interfaces
 {
-    public interface ILogger
+    public interface ICorrelationLogger
     {
         void LogInformation(string message, params object?[] args);
         void LogError(string message, params object?[] args);
+        void LogError(Exception e);
         void LogWarning(string message, params object?[] args);
     }
-    public interface ILoggerFactory
+    public interface ICorrelationLoggerFactory
     {
-        ILogger CreateLogger(string name);
-        ILogger CreateLogger<T>();
+        ICorrelationLogger CreateLogger(string name);
+        ICorrelationLogger CreateLogger<T>();
     }
 }

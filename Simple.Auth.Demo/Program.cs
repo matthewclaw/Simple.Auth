@@ -31,7 +31,6 @@ namespace Simple.Auth.Demo
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
 

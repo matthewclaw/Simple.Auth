@@ -1,7 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
 using System.Security.Claims;
 
@@ -19,15 +19,17 @@ namespace Simple.Auth.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly ITokenService _tokenService;
         private readonly ITokenAccessor _tokenAccessor;
+        private readonly Interfaces.Authentication.IAuthorizationService _authorizationService;
 
-        public AuthController(ILogger<AuthController> logger, ITokenAccessor tokenAccessor, ITokenService tokenService)
+        public AuthController(ILogger<AuthController> logger, ITokenAccessor tokenAccessor, ITokenService tokenService, Interfaces.Authentication.IAuthorizationService authorizationService)
         {
             _logger = logger;
             _tokenAccessor = tokenAccessor;
             _tokenService = tokenService;
+            _authorizationService = authorizationService;
         }
-
-        [HttpGet(Name = "me")]
+        [Authorize]
+        [HttpGet("me")]
         public async Task<IActionResult> Get()
         {
             var refreshTok = _tokenService.GenerateRefreshToken();
@@ -38,6 +40,13 @@ namespace Simple.Auth.Controllers
             var newAccess = _tokenService.GenerateToken(Array.Empty<Claim>(), TimeSpan.FromHours(1));
             _tokenAccessor.SetRefreshToken(refreshTok);
             _tokenAccessor.SetToken(newAccess);
+            return Ok();
+        }
+
+        [HttpGet("test")]
+        public async Task<IActionResult> GetDummySession()
+        {
+           await _authorizationService.StartSessionAsync();
             return Ok();
         }
     }

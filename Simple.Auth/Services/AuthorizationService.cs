@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Simple.Auth.Enums;
 using Simple.Auth.Helpers;
+using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Interfaces.Stores;
 using Simple.Auth.Models;
@@ -19,14 +20,18 @@ namespace Simple.Auth.Services
         protected readonly IRefreshTokenStore RefreshTokenStore;
         public readonly HttpTokenAccessor TokenAccessor;
         protected readonly ITokenService TokenService;
+        protected readonly ICorrelationService CorrelationService;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
 
-        public AuthorizationService(IHttpContextAccessor httpContextAccessor, HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore)
+        public AuthorizationService(IHttpContextAccessor httpContextAccessor, 
+            HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
+            ICorrelationService correlationService)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
             HttpContextAccessor = httpContextAccessor;
             RefreshTokenStore = refreshTokenStore;
+            CorrelationService = correlationService;
         }
 
         public virtual async Task<IEnumerable<Claim>> GetClaimsAsync()
@@ -117,6 +122,15 @@ namespace Simple.Auth.Services
         public void ForDefaultContext()
         {
             TokenAccessor.ForDefaultContext();
+        }
+
+        public DateTimeOffset GetTokenExpiry()
+        {
+            if(!this.TokenAccessor.TryGetToken(out var token))
+            {
+                return DateTimeOffset.MinValue;
+            }
+            return TokenService.GetTokenExpiry(token);
         }
     }
 }

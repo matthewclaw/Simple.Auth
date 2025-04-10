@@ -10,42 +10,21 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Middleware
 {
-    public class SimpleAuthMiddleware
+    public class SimpleAuthMiddleware: IMiddleware
     {
         protected readonly RequestDelegate Next;
         protected readonly IAuthorizationService AuthorizationService;
-        protected readonly ILogger Logger;
+        protected readonly ICorrelationLogger Logger;
         protected readonly ICorrelationService CorrelationService;
 
-        public SimpleAuthMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, IAuthorizationService authorizationService, ICorrelationService correlationService)
+        public SimpleAuthMiddleware(ICorrelationLoggerFactory loggerFactory, IAuthorizationService authorizationService, ICorrelationService correlationService)
         {
-            Next = next;
             Logger = loggerFactory.CreateLogger<SimpleAuthMiddleware>();
             AuthorizationService = authorizationService;
             CorrelationService = correlationService;
         }
-        private void LogInformation(string message)
-        {
-            Logger.LogInformation(message);
-        }
-        private void LogError(string message)
-        {
-            Logger.LogError(message);
-        }
-        private void LogWarning(string message)
-        {
-            Logger.LogWarning(message);
-        }
-        private string LogMessage(string message, )
-        {
-            var correlationId = CorrelationService.GetCorrelationId();
-            if (string.IsNullOrEmpty(correlationId))
-            {
-                return message;
-            }
-            return 
-        }
-        public virtual async Task InvokeAsync(HttpContext context)
+
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             try
             {
@@ -54,7 +33,7 @@ namespace Simple.Auth.Middleware
                 if (sessionState == Enums.SessionState.Invalid || sessionState == Enums.SessionState.None)
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-
+                    Logger.LogWarning("Unauthorized: No Session or Session expired");
                     await context.Response.WriteAsync("Unauthorized: No Session or Session expired");
                     return;
                 }
@@ -64,12 +43,18 @@ namespace Simple.Auth.Middleware
                     if (!refreshed)
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                        Logger.LogWarning("Session expired");
                         await context.Response.WriteAsync("Unauthorized: Session expired");
+                        return;
                     }
                 }
+                await next(context);
 
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception thrown: {exception}. Stack: {stackTrace}", ex.Message, ex.StackTrace);
+            }
             finally
             {
                 AuthorizationService.ForDefaultContext();
