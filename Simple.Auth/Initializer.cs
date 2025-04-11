@@ -1,4 +1,4 @@
-﻿//using Microsoft.Extensions.DependencyInjection;
+﻿
 using Simple.Auth.Builders;
 using Simple.Auth.Configuration;
 using Simple.Auth.Interfaces.Authentication;
@@ -30,8 +30,11 @@ namespace Simple.Auth
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
             services.AddStores();
-
-            services.AddPolicies();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Constants.Policies.DEFAULT, policy =>
+                policy.Requirements.Add(new SimpleRequirement()));
+            });
 
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
@@ -41,16 +44,16 @@ namespace Simple.Auth
 
         }
 
-        private static IServiceCollection AddPolicies(this IServiceCollection services)
-        {
+        //private static IServiceCollection AddPolicies(this IServiceCollection services)
+        //{
 
-            services.AddAuthorization( options =>
-            {
-                options.AddPolicy(Constants.Policies.DEFAULT, policy =>
-                policy.Requirements.Add(new SimpleRequirement()));
-            });
-            return services;
-        }
+        //    services.AddAuthorization( options =>
+        //    {
+        //        options.AddPolicy(Constants.Policies.DEFAULT, policy =>
+        //        policy.Requirements.Add(new SimpleRequirement()));
+        //    });
+        //    return services;
+        //}
 
         private static IServiceCollection AddStores(this IServiceCollection services)
         {
