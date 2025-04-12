@@ -12,5 +12,9 @@ namespace Simple.Auth
         {
             public const string DEFAULT = "simple-policy";
         }
+        public static class Schemes
+        {
+            public const string DEFAULT = "simple-scheme";
+        }
     }
 }

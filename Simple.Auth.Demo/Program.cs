@@ -1,4 +1,5 @@
 
+using Simple.Auth.Demo.Services;
 using Simple.Auth.Requirements;
 using System.Security.Cryptography;
 
@@ -14,7 +15,8 @@ namespace Simple.Auth.Demo
             {
                 options.UseCookies();
                 options.WithConfiguration(builder.Configuration);
-                options.WithDefaultTokenService(s => new Services.JwtTokenService(dummySecret, "me", "you"));
+                options.WithDefaultTokenService(s => new Auth.Services.JwtTokenService(dummySecret, "me", "you"));
+                options.WithUserAuthenticator<UserAuthenticator>();
             });
             builder.Services.AddControllers();
             builder.Services.AddHttpContextAccessor();

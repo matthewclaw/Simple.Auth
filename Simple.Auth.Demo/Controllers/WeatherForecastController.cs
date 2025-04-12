@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
+using Simple.Auth.Services;
 using System.Security.Claims;
 
 namespace Simple.Auth.Demo.Controllers
@@ -16,9 +17,9 @@ namespace Simple.Auth.Demo.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly ITokenService _tokenService;
-        private readonly ITokenAccessor _tokenAccessor;
+        private readonly HttpTokenAccessor _tokenAccessor;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ITokenAccessor tokenAccessor, ITokenService tokenService)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, HttpTokenAccessor tokenAccessor, ITokenService tokenService)
         {
             _logger = logger;
             _tokenAccessor = tokenAccessor;

@@ -16,6 +16,9 @@ using Simple.Auth.Interfaces.Stores;
 using Simple.Auth.Stores;
 using Simple.Auth.Requirements;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication;
+using Simple.Auth.Middleware.Handlers.Authorization;
+using Simple.Auth.Middleware.Handlers.Authentication;
 namespace Simple.Auth
 {
     public static class Initializer
@@ -24,36 +27,40 @@ namespace Simple.Auth
         {
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
-            AuthenticationOptions authenticationOptions = builder.Build();
+            var authenticationOptions = builder.Build();
 
             services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
             services.AddStores();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy(Constants.Policies.DEFAULT, policy =>
-                policy.Requirements.Add(new SimpleRequirement()));
-            });
 
+            services.AddPolicies();
+            services.AddTransient(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
-            services.AddScoped<IAuthorizationService, AuthorizationService>();
+            services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
 
             return services;
 
         }
 
-        //private static IServiceCollection AddPolicies(this IServiceCollection services)
-        //{
-
-        //    services.AddAuthorization( options =>
-        //    {
-        //        options.AddPolicy(Constants.Policies.DEFAULT, policy =>
-        //        policy.Requirements.Add(new SimpleRequirement()));
-        //    });
-        //    return services;
-        //}
+        private static IServiceCollection AddPolicies(this IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = Constants.Schemes.DEFAULT; // Set the default authentication scheme
+                options.DefaultChallengeScheme = Constants.Schemes.DEFAULT; // Set the default challenge scheme
+            }).AddScheme<AuthenticationSchemeOptions, SimpleAuthenticationHandler>(Constants.Schemes.DEFAULT, null); // Register your custom handler
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(Constants.Policies.DEFAULT, policy =>
+                {
+                    policy.AddAuthenticationSchemes(Constants.Schemes.DEFAULT);
+                    policy.Requirements.Add(new SimpleRequirement());
+                });
+            });
+            return services;
+        }
 
         private static IServiceCollection AddStores(this IServiceCollection services)
         {

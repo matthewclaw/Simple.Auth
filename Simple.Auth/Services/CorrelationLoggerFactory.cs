@@ -18,18 +18,30 @@ namespace Simple.Auth.Services
             _internalFactory = internalFactory;
             _serviceProvider = serviceProvider;
         }
-        public ICorrelationLogger CreateLogger(string name)
+
+        public void AddProvider(ILoggerProvider provider)
+        {
+            _internalFactory.AddProvider(provider);
+        }
+
+        public ILogger CreateLogger(string categoryName)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var correlationService = scope.ServiceProvider.GetRequiredService<ICorrelationService>();
-                return new Logger(_internalFactory, name, correlationService);
+                return new Logger(_internalFactory, categoryName, correlationService);
             }
         }
 
         public ICorrelationLogger CreateLogger<T>()
         {
-            return CreateLogger(typeof(T).Name);
+            return (ICorrelationLogger)CreateLogger(typeof(T).Name);
         }
+
+        public void Dispose()
+        {
+            _internalFactory?.Dispose();
+        }
+
     }
 }

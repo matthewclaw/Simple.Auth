@@ -14,29 +14,26 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
-    public class AuthorizationService : IAuthorizationService
+    public class AuthenticationService : IAuthenticationService
     {
         protected readonly IHttpContextAccessor HttpContextAccessor;
         protected readonly IRefreshTokenStore RefreshTokenStore;
         public readonly HttpTokenAccessor TokenAccessor;
         protected readonly ITokenService TokenService;
         protected readonly ICorrelationService CorrelationService;
+        protected readonly IUserAuthenticator UserAuthenticator;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
 
-        public AuthorizationService(IHttpContextAccessor httpContextAccessor, 
+        public AuthenticationService(IHttpContextAccessor httpContextAccessor, 
             HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
-            ICorrelationService correlationService)
+            ICorrelationService correlationService, IUserAuthenticator userAuthenticator)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
             HttpContextAccessor = httpContextAccessor;
             RefreshTokenStore = refreshTokenStore;
             CorrelationService = correlationService;
-        }
-
-        public virtual async Task<IEnumerable<Claim>> GetClaimsAsync()
-        {
-            return await Task.FromResult(Array.Empty<Claim>());
+            UserAuthenticator = userAuthenticator;
         }
 
         public async Task<SessionState> GetSessionStateAsync()
@@ -58,10 +55,14 @@ namespace Simple.Auth.Services
             return SessionState.RefreshValid;
         }
 
-        public async Task<(string accessToken, string refreshToken)> StartSessionAsync()
+        public async Task<(string accessToken, string refreshToken)> StartSessionAsync(object request)
         {
-            var claims = await GetClaimsAsync();
-            var token = TokenService.GenerateToken(claims, TimeSpan.FromMinutes(30));
+            var userAuthResult = await UserAuthenticator.AuthenticateUserAsync(request);
+            if (!userAuthResult.Succeeded)
+            {
+                return ("", "");
+            }
+            var token = TokenService.GenerateToken(userAuthResult.Principal!.Claims, TimeSpan.FromMinutes(30));
             var refresh = TokenService.GenerateRefreshToken();
             TokenAccessor.SetToken(token);
             TokenAccessor.SetRefreshToken(refresh);
@@ -131,6 +132,20 @@ namespace Simple.Auth.Services
                 return DateTimeOffset.MinValue;
             }
             return TokenService.GetTokenExpiry(token);
+        }
+
+        public async Task<AuthenticationResult> AuthenticateAsync(string accessToken)
+        {
+            return await UserAuthenticator.AuthenticateUserAsync(accessToken);
+        }
+
+        public async Task<AuthenticationResult> AuthenticateAsync()
+        {
+            if (!this.TokenAccessor.TryGetToken(out var token))
+            {
+                return AuthenticationResult.Failure("No Access Token");
+            }
+            return await AuthenticateAsync(token);
         }
     }
 }

@@ -15,11 +15,13 @@ namespace Simple.Auth.Configuration
         public readonly IConfiguration Configuration;
         public readonly TokenAccessOptions TokenAccessOptions;
         public readonly TokenServiceOptions TokenServiceOptions;
-        public AuthenticationOptions(IConfiguration configuration, TokenAccessOptions tokenAccessOptions, TokenServiceOptions tokenServiceOptions)
+        public readonly Type UserAuthenticatorType;
+        public AuthenticationOptions(IConfiguration configuration, TokenAccessOptions tokenAccessOptions, TokenServiceOptions tokenServiceOptions, Type userAuthenticatorType)
         {
             Configuration = configuration;
             TokenAccessOptions = tokenAccessOptions;
             TokenServiceOptions = tokenServiceOptions;
+            UserAuthenticatorType = userAuthenticatorType;
         }
     }
     public class TokenAccessOptions

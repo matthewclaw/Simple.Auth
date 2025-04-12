@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Simple.Auth.Interfaces.Authentication;
+using Simple.Auth.Services;
 using System.Security.Claims;
 
 namespace Simple.Auth.Controllers
@@ -19,16 +20,16 @@ namespace Simple.Auth.Controllers
         private readonly ILogger<AuthController> _logger;
         private readonly ITokenService _tokenService;
         private readonly ITokenAccessor _tokenAccessor;
-        private readonly Interfaces.Authentication.IAuthorizationService _authorizationService;
+        private readonly Interfaces.Authentication.IAuthenticationService _authorizationService;
 
-        public AuthController(ILogger<AuthController> logger, ITokenAccessor tokenAccessor, ITokenService tokenService, Interfaces.Authentication.IAuthorizationService authorizationService)
+        public AuthController(ILogger<AuthController> logger, HttpTokenAccessor tokenAccessor, ITokenService tokenService, Interfaces.Authentication.IAuthenticationService authorizationService)
         {
             _logger = logger;
             _tokenAccessor = tokenAccessor;
             _tokenService = tokenService;
             _authorizationService = authorizationService;
         }
-        [Authorize]
+        [Authorize(Policy = Constants.Policies.DEFAULT)]
         [HttpGet("me")]
         public async Task<IActionResult> Get()
         {
@@ -46,7 +47,7 @@ namespace Simple.Auth.Controllers
         [HttpGet("test")]
         public async Task<IActionResult> GetDummySession()
         {
-           await _authorizationService.StartSessionAsync();
+            await _authorizationService.StartSessionAsync(new { Email = "alice@example.com", Password = "password123" });
             return Ok();
         }
     }

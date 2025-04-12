@@ -13,11 +13,11 @@ namespace Simple.Auth.Middleware
     public class SimpleAuthMiddleware: IMiddleware
     {
         protected readonly RequestDelegate Next;
-        protected readonly IAuthorizationService AuthorizationService;
+        protected readonly IAuthenticationService AuthorizationService;
         protected readonly ICorrelationLogger Logger;
         protected readonly ICorrelationService CorrelationService;
 
-        public SimpleAuthMiddleware(ICorrelationLoggerFactory loggerFactory, IAuthorizationService authorizationService, ICorrelationService correlationService)
+        public SimpleAuthMiddleware(ICorrelationLoggerFactory loggerFactory, IAuthenticationService authorizationService, ICorrelationService correlationService)
         {
             Logger = loggerFactory.CreateLogger<SimpleAuthMiddleware>();
             AuthorizationService = authorizationService;
