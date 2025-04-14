@@ -39,7 +39,7 @@ namespace Simple.Auth.Controllers
             return Ok();
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> GetDummySession(TLoginRequest request)
         {
             //dynamic request = new { Email = "alice@example.com", Password = "password123" };

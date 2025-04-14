@@ -1,6 +1,7 @@
 ﻿using Simple.Auth.Demo.Models;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Models;
+using Simple.Auth.Models.Requests;
 using System.Security.Claims;
 
 namespace Simple.Auth.Demo.Services
@@ -16,13 +17,14 @@ namespace Simple.Auth.Demo.Services
             new User { Id = Guid.NewGuid().ToString(), Name = "Bob The Builder", Email = "bob@example.com", Password = "buildit456" },
             new User { Id = Guid.NewGuid().ToString(), Name = "Charlie Chaplin", Email = "charlie@example.com", Password = "silent789" },
             new User { Id = Guid.NewGuid().ToString(), Name = "Diana Prince", Email = "diana@example.com", Password = "wonderwoman" },
-            new User { Id = Guid.NewGuid().ToString(), Name = "Eve Harrington", Email = "eve@example.com", Password = "ingenue007" }
+            new User { Id = Guid.NewGuid().ToString(), Name = "Eve Harrington", Email = "eve@example.com", Password = "ingenue007" },
+            new User { Id = Guid.NewGuid().ToString(), Name = "Eve Harrington", Email = "a", Password = "a" }
         };
         }
         public async Task<AuthenticationResult> AuthenticateUserAsync(object request)
         {
-            dynamic details = (dynamic)request;
-            var user = users.FirstOrDefault(u => u.Email.ToLower() == details.Email.ToLower() && u.Password== details.Password);
+            var details = (dynamic)request;
+            var user = users.FirstOrDefault(u => u.Email.ToLower() == details.UserName.ToLower() && u.Password == details.Password);
             if (user == null)
             {
                 return AuthenticationResult.Failure("Invalid username/password");

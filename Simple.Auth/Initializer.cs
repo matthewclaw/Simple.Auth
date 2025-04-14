@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Authentication;
 using Simple.Auth.Middleware.Handlers.Authorization;
 using Simple.Auth.Middleware.Handlers.Authentication;
 using Simple.Auth.Controllers.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Simple.Auth.Controllers.Conventions;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 namespace Simple.Auth
 {
     public static class Initializer
@@ -29,6 +32,8 @@ namespace Simple.Auth
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
             var authenticationOptions = builder.Build();
+
+            services.AddSingleton(authenticationOptions);
 
             services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
@@ -44,7 +49,14 @@ namespace Simple.Auth
             return services;
 
         }
-
+        public static MvcOptions AddSimpleAuthControllers(this MvcOptions mvcOptions, Action<AuthControllerConventionOptionsBuilder> options)
+        {
+            var builder = new AuthControllerConventionOptionsBuilder();
+            options?.Invoke(builder);
+            var authControllerConventionOptions = builder.Build();
+            mvcOptions.Conventions.Add(new AuthControllerConvention(authControllerConventionOptions));
+            return mvcOptions;
+        }
         private static IServiceCollection AddPolicies(this IServiceCollection services)
         {
             services.AddAuthentication(options =>
@@ -65,7 +77,8 @@ namespace Simple.Auth
 
         private static IServiceCollection AddStores(this IServiceCollection services)
         {
-            services.AddScoped<IRefreshTokenStore, RefreshTokenInMemoryStore>();
+            services.AddScoped<IRefr
+                eshTokenStore, RefreshTokenInMemoryStore>();
             return services;
         }
         private static IServiceCollection AddTokenAccessor(this IServiceCollection services, TokenAccessOptions options)

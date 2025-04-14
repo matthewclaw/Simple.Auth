@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Simple.Auth.Controllers.Authentication
 {
     [ApiController]
-    [Route("auth/usernameAndPassword")]
+    [Route("auth/classic")]
     public class UsernameAndPasswordAuthController : AuthenticationControllerBase<UsernameAndPassword>
     {
         public UsernameAndPasswordAuthController(ICorrelationLoggerFactory loggerFactory, IAuthenticationService authorizationService) : base(loggerFactory, authorizationService)

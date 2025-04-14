@@ -1,4 +1,5 @@
 
+using Simple.Auth.Controllers.Conventions;
 using Simple.Auth.Demo.Services;
 using Simple.Auth.Requirements;
 using System.Security.Cryptography;
@@ -18,7 +19,13 @@ namespace Simple.Auth.Demo
                 options.WithDefaultTokenService(s => new Auth.Services.JwtTokenService(dummySecret, "me", "you"));
                 options.WithUserAuthenticator<UserAuthenticator>();
             });
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.AddSimpleAuthControllers(x =>
+                {
+                    x.WithClassic();
+                });
+            });
             builder.Services.AddHttpContextAccessor();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
