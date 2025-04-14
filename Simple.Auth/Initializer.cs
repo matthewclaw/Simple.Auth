@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Simple.Auth.Middleware.Handlers.Authorization;
 using Simple.Auth.Middleware.Handlers.Authentication;
+using Simple.Auth.Controllers.Authentication;
 namespace Simple.Auth
 {
     public static class Initializer
@@ -39,7 +40,7 @@ namespace Simple.Auth
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
             services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
-
+            services.AddControllers().AddApplicationPart(typeof(UsernameAndPasswordAuthController).Assembly);
             return services;
 
         }
