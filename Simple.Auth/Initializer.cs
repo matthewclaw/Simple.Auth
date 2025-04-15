@@ -1,5 +1,4 @@
-﻿
-using Simple.Auth.Builders;
+﻿using Simple.Auth.Builders;
 using Simple.Auth.Configuration;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Services;
@@ -19,11 +18,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Simple.Auth.Middleware.Handlers.Authorization;
 using Simple.Auth.Middleware.Handlers.Authentication;
-using Simple.Auth.Controllers.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Auth.Controllers.Conventions;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Runtime.InteropServices;
+using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
+
 namespace Simple.Auth
 {
     public static class Initializer
@@ -41,15 +41,13 @@ namespace Simple.Auth
 
             services.AddStores();
 
-            services.AddPolicies();
             services.AddTransient(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
             services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
-            services.AddControllers().AddApplicationPart(typeof(UsernameAndPasswordAuthController).Assembly);
             return services;
-
         }
+
         public static MvcOptions AddSimpleAuthControllers(this MvcOptions mvcOptions, Action<AuthControllerConventionOptionsBuilder> options)
         {
             var builder = new AuthControllerConventionOptionsBuilder();
@@ -58,13 +56,18 @@ namespace Simple.Auth
             mvcOptions.Conventions.Add(new AuthControllerConvention(authControllerConventionOptions));
             return mvcOptions;
         }
-        private static IServiceCollection AddPolicies(this IServiceCollection services)
+
+        private static IServiceCollection AddSchemes(this IServiceCollection services, AuthenticationOptions options)
         {
-            services.AddAuthentication(options =>
+            var authBuilder = services.AddAuthentication(options =>
+             {
+                 options.DefaultScheme = Constants.Schemes.DEFAULT; // Set the default authentication scheme
+                 options.DefaultChallengeScheme = Constants.Schemes.DEFAULT; // Set the default challenge scheme
+             }).AddScheme<AuthenticationSchemeOptions, SimpleAuthenticationHandler>(Constants.Schemes.DEFAULT, null);
+            foreach (var addition in options.SchemeAdditions)
             {
-                options.DefaultScheme = Constants.Schemes.DEFAULT; // Set the default authentication scheme
-                options.DefaultChallengeScheme = Constants.Schemes.DEFAULT; // Set the default challenge scheme
-            }).AddScheme<AuthenticationSchemeOptions, SimpleAuthenticationHandler>(Constants.Schemes.DEFAULT, null); // Register your custom handler
+                addition.Invoke(authBuilder);
+            }
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Constants.Policies.DEFAULT, policy =>
@@ -81,9 +84,10 @@ namespace Simple.Auth
         {
             //Temporary Singleton
             services.AddSingleton<IRefreshTokenStore, RefreshTokenInMemoryStore>();
-           // services.AddScoped<IRefreshTokenStore, RefreshTokenInMemoryStore>();
+            // services.AddScoped<IRefreshTokenStore, RefreshTokenInMemoryStore>();
             return services;
         }
+
         private static IServiceCollection AddTokenAccessor(this IServiceCollection services, TokenAccessOptions options)
         {
             if (options.ImplementationFactory != null)
@@ -98,6 +102,7 @@ namespace Simple.Auth
             services.AddScoped(typeof(HttpTokenAccessor), options.TokenAccessorType!);
             return services;
         }
+
         private static IServiceCollection AddTokenService(this IServiceCollection services, TokenServiceOptions options)
         {
             if (options.ImplementationFactory != null)

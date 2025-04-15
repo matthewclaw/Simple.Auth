@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Services;
@@ -16,12 +17,16 @@ namespace Simple.Auth.Configuration
         public readonly TokenAccessOptions TokenAccessOptions;
         public readonly TokenServiceOptions TokenServiceOptions;
         public readonly Type UserAuthenticatorType;
-        public AuthenticationOptions(IConfiguration configuration, TokenAccessOptions tokenAccessOptions, TokenServiceOptions tokenServiceOptions, Type userAuthenticatorType)
+        public readonly List<Action<AuthenticationBuilder>> SchemeAdditions;
+        public AuthenticationOptions(IConfiguration configuration, TokenAccessOptions tokenAccessOptions, 
+            TokenServiceOptions tokenServiceOptions, Type userAuthenticatorType,
+            List<Action<AuthenticationBuilder>> schemeAdditions)
         {
             Configuration = configuration;
             TokenAccessOptions = tokenAccessOptions;
             TokenServiceOptions = tokenServiceOptions;
             UserAuthenticatorType = userAuthenticatorType;
+            SchemeAdditions =schemeAdditions;
         }
     }
     public class TokenAccessOptions
