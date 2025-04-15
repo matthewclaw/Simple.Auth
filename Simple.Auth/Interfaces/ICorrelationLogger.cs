@@ -11,6 +11,7 @@ namespace Simple.Auth.Interfaces
     {
         void LogInformation(string message, params object?[] args);
         void LogError(string message, params object?[] args);
+        void LogDebug(string message, params object?[] args);
         void LogError(Exception e);
         void LogWarning(string message, params object?[] args);
     }

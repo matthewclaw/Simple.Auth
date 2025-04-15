@@ -39,6 +39,7 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
             {
                 return false;
             }
+            _logger.LogInformation("Refreshing token");
             return await _athenticationService.TryRefreshAccessAsync();
         }
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()

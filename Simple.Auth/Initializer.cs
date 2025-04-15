@@ -23,6 +23,7 @@ using Simple.Auth.Controllers.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Auth.Controllers.Conventions;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Authorization;
 namespace Simple.Auth
 {
     public static class Initializer
@@ -72,13 +73,15 @@ namespace Simple.Auth
                     policy.Requirements.Add(new SimpleRequirement());
                 });
             });
+            services.AddScoped<IAuthorizationHandler, RequirementHandler>();
             return services;
         }
 
         private static IServiceCollection AddStores(this IServiceCollection services)
         {
-            services.AddScoped<IRefr
-                eshTokenStore, RefreshTokenInMemoryStore>();
+            //Temporary Singleton
+            services.AddSingleton<IRefreshTokenStore, RefreshTokenInMemoryStore>();
+           // services.AddScoped<IRefreshTokenStore, RefreshTokenInMemoryStore>();
             return services;
         }
         private static IServiceCollection AddTokenAccessor(this IServiceCollection services, TokenAccessOptions options)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Middleware
 {
-    public class SimpleAuthMiddleware: IMiddleware
+    public class SimpleAuthMiddleware : IMiddleware
     {
         protected readonly RequestDelegate Next;
         protected readonly IAuthenticationService AuthorizationService;
@@ -34,6 +34,7 @@ namespace Simple.Auth.Middleware
                 {
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     Logger.LogWarning("Unauthorized: No Session or Session expired");
+                    await AuthorizationService.EndSessionAsync();
                     await context.Response.WriteAsync("Unauthorized: No Session or Session expired");
                     return;
                 }
@@ -44,6 +45,7 @@ namespace Simple.Auth.Middleware
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         Logger.LogWarning("Session expired");
+                        await AuthorizationService.EndSessionAsync();
                         await context.Response.WriteAsync("Unauthorized: Session expired");
                         return;
                     }

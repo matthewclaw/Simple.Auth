@@ -19,7 +19,7 @@ namespace Simple.Auth.Builders
         private CookieAccessorOptions? _cookieAccessorOptions;
         private Func<IServiceProvider, HttpTokenAccessor>? _tokenAccessorFactory;
         private Func<IServiceProvider, ITokenService>? _tokenServiceFactory;
-        private Type _userAuthenticatorType;
+        private Type? _userAuthenticatorType;
 
         /// <summary>
         /// Required. This is the instance of IConfiguration that will be used for the required services

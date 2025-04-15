@@ -14,6 +14,7 @@ namespace Simple.Auth.Interfaces.Authentication
     {
         Task<bool> TryRefreshAccessAsync();
         Task<(string accessToken, string refreshToken)> StartSessionAsync(object request);
+        Task EndSessionAsync();
         Task<AuthenticationResult> AuthenticateAsync(string accessToken);
         Task<AuthenticationResult> AuthenticateAsync();
         Task<SessionState> GetSessionStateAsync();

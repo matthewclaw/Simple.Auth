@@ -34,5 +34,7 @@ namespace Simple.Auth.Interfaces.Authentication
         /// </summary>
         /// <param name="token"></param>
         void SetRefreshToken(string token);
+
+        void RemoveTokens();
     }
 }

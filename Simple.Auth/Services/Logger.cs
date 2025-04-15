@@ -31,6 +31,11 @@ namespace Simple.Auth.Services
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         => _internalLogger.Log(logLevel, eventId, state, exception, formatter);
 
+        public void LogDebug(string message, params object?[] args)
+        {
+            TryPrefixCorrelationId(message, LogLevel.Debug, args);
+        }
+
         public void LogError(string message, params object?[] args)
         {
             TryPrefixCorrelationId(message, LogLevel.Error, args);

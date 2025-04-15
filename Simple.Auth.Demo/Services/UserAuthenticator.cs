@@ -14,6 +14,7 @@ namespace Simple.Auth.Demo.Services
             users = new User[]
         {
             new User { Id = Guid.NewGuid().ToString(), Name = "Alice Wonderland", Email = "alice@example.com", Password = "password123" },
+            new User { Id = Guid.NewGuid().ToString(), Name = "Bob The Builder", Email = "string", Password = "string" },
             new User { Id = Guid.NewGuid().ToString(), Name = "Bob The Builder", Email = "bob@example.com", Password = "buildit456" },
             new User { Id = Guid.NewGuid().ToString(), Name = "Charlie Chaplin", Email = "charlie@example.com", Password = "silent789" },
             new User { Id = Guid.NewGuid().ToString(), Name = "Diana Prince", Email = "diana@example.com", Password = "wonderwoman" },
@@ -45,7 +46,8 @@ namespace Simple.Auth.Demo.Services
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.Name),
             };
-            return new ClaimsPrincipal(new ClaimsIdentity(claims));
+            var principle = new ClaimsPrincipal(new ClaimsIdentity(claims, Constants.Schemes.DEFAULT));
+            return principle;
         }
     }
     public class User

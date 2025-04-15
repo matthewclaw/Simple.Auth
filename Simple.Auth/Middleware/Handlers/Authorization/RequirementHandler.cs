@@ -33,33 +33,11 @@ namespace Simple.Auth.Middleware.Handlers.Authorization
         {
             try
             {
-                //string message;
-                //string correlationId = _correlationService.GetCorrelationId() ?? _correlationService.GenerateCorrelationId();
-                //bool stateRefreshed;
-                //_correlationService.SetCorrelationId(correlationId);
-                //var sessionState = await _authorizationService.GetSessionStateAsync();
-                //switch (sessionState)
-                //{
-                //    case Enums.SessionState.Valid:
-                //        stateRefreshed = await CheckForAutomaticRefreshAsync();
-                //        break;
-                //    case Enums.SessionState.RefreshValid:
-                //        stateRefreshed = await _authorizationService.TryRefreshAccessAsync();
-                //        break;
-                //    default:
-                //    case Enums.SessionState.None:
-                //    case Enums.SessionState.Invalid:
-                //        message = "Unauthorized: No Session or Session expired";
-                //        _logger.LogWarning(message);
-                //        context.Fail();
-                //        return;
-                //}
-                //if (!stateRefreshed)
-                //{
-                //    context.Fail();
-                //    return;
-                //}
-                //context.Succeed(requirement);
+                if (!context.User?.Identity?.IsAuthenticated ?? true)
+                {
+                    context.Fail();
+                    return;
+                }
                 context.Succeed(requirement);
             }
             catch (Exception ex)

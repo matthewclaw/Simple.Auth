@@ -9,44 +9,50 @@ using System.Security.Claims;
 
 namespace Simple.Auth.Controllers
 {
-    public class AuthenticationControllerBase<TLoginRequest> : ControllerBase
+    public class AuthenticationControllerBase<TLoginRequest> : ControllerBase where TLoginRequest : class
     {
 
         #region Protected Fields
 
-        protected IAuthenticationService AuthorizationService;
+        protected IAuthenticationService AuthenticationService;
 
-        protected ILogger Logger;
+        protected ICorrelationLogger Logger;
 
         #endregion Protected Fields
 
         #region Public Constructors
 
-        public AuthenticationControllerBase(ICorrelationLoggerFactory loggerFactory, Interfaces.Authentication.IAuthenticationService authorizationService)
+        public AuthenticationControllerBase(ICorrelationLoggerFactory loggerFactory, IAuthenticationService authenticationService)
         {
             Logger = loggerFactory.CreateLogger<AuthenticationControllerBase<TLoginRequest>>();
-            AuthorizationService = authorizationService;
+            AuthenticationService = authenticationService;
         }
 
         #endregion Public Constructors
 
         #region Public Methods
-
         [Authorize(Policy = Constants.Policies.DEFAULT)]
         [HttpGet("me")]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetMeAsync()
         {
-            return Ok();
+            var test = this.HttpContext.User;
+            var claims = test.Claims.ToDictionary(claim => claim.Type, claim => claim.Value);
+            return await Task.FromResult(Ok(claims));
         }
-
+        [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<IActionResult> GetDummySession(TLoginRequest request)
+        public async Task<IActionResult> LoginAsync(TLoginRequest request)
         {
-            //dynamic request = new { Email = "alice@example.com", Password = "password123" };
-            await AuthorizationService.StartSessionAsync(request);
+            await AuthenticationService.StartSessionAsync(request);
             return Ok();
         }
 
+        [HttpDelete("logout")]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await AuthenticationService.EndSessionAsync();
+            return Ok();
+        }
         #endregion Public Methods
     }
 }

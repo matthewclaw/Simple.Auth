@@ -11,7 +11,7 @@ namespace Simple.Auth.Services
     public abstract class HttpTokenAccessor : ITokenAccessor
     {
         protected readonly IHttpContextAccessor HttpContextAccessor;
-        protected HttpContext HttpContent => _overiddenHtppContext ?? HttpContextAccessor.HttpContext;
+        protected HttpContext HttpContext => _overiddenHtppContext ?? HttpContextAccessor.HttpContext;
         private HttpContext? _overiddenHtppContext = null;
         protected HttpTokenAccessor(IHttpContextAccessor httpContextAccessor)
         {
@@ -29,5 +29,7 @@ namespace Simple.Auth.Services
         {
             _overiddenHtppContext = null;
         }
+
+        public abstract void RemoveTokens();
     }
 }

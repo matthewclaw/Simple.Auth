@@ -22,11 +22,12 @@ namespace Simple.Auth.Services
         protected readonly ITokenService TokenService;
         protected readonly ICorrelationService CorrelationService;
         protected readonly IUserAuthenticator UserAuthenticator;
+        protected readonly ICorrelationLogger Logger;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
 
-        public AuthenticationService(IHttpContextAccessor httpContextAccessor, 
+        public AuthenticationService(IHttpContextAccessor httpContextAccessor,
             HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
-            ICorrelationService correlationService, IUserAuthenticator userAuthenticator)
+            ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
@@ -34,22 +35,27 @@ namespace Simple.Auth.Services
             RefreshTokenStore = refreshTokenStore;
             CorrelationService = correlationService;
             UserAuthenticator = userAuthenticator;
+            Logger = loggerFactory.CreateLogger<AuthenticationService>();
         }
 
         public async Task<SessionState> GetSessionStateAsync()
         {
             string token = string.Empty;
             string refresh = string.Empty;
-            if (!TokenAccessor.TryGetToken(out token) && !TokenAccessor.TryGetRefreshToken(out refresh))
+            bool hasToken = TokenAccessor.TryGetToken(out token);
+            bool hasRefresh = TokenAccessor.TryGetRefreshToken(out refresh);
+            if (!hasToken && !hasRefresh)
             {
                 return SessionState.None;
             }
             if (await TokenService.ValidateTokenAsync(token) && !string.IsNullOrEmpty(refresh))
             {
+                Logger.LogDebug("Session is valid");
                 return SessionState.Valid;
             }
             if (!await ValidateRefreshTokenAsync(refresh))
             {
+                Logger.LogWarning("Could not refresh session");
                 return SessionState.Invalid;
             }
             return SessionState.RefreshValid;
@@ -60,8 +66,10 @@ namespace Simple.Auth.Services
             var userAuthResult = await UserAuthenticator.AuthenticateUserAsync(request);
             if (!userAuthResult.Succeeded)
             {
-                return ("", "");
+                throw new Exception("Invalid sign-in details");
             }
+            var newCorrelation = CorrelationService.GenerateCorrelationId();
+            CorrelationService.SetCorrelationId(newCorrelation);
             var token = TokenService.GenerateToken(userAuthResult.Principal!.Claims, TimeSpan.FromMinutes(30));
             var refresh = TokenService.GenerateRefreshToken();
             TokenAccessor.SetToken(token);
@@ -127,7 +135,7 @@ namespace Simple.Auth.Services
 
         public DateTimeOffset GetTokenExpiry()
         {
-            if(!this.TokenAccessor.TryGetToken(out var token))
+            if (!this.TokenAccessor.TryGetToken(out var token))
             {
                 return DateTimeOffset.MinValue;
             }
@@ -146,6 +154,16 @@ namespace Simple.Auth.Services
                 return AuthenticationResult.Failure("No Access Token");
             }
             return await AuthenticateAsync(token);
+        }
+
+        public async Task EndSessionAsync()
+        {
+            if(!this.TokenAccessor.TryGetRefreshToken(out var refresh))
+            {
+                return;
+            }
+            await RefreshTokenStore.BlacklistAsync(refresh);
+            TokenAccessor.RemoveTokens();
         }
     }
 }

@@ -30,11 +30,6 @@ namespace Simple.Auth.Demo
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddAuthorization(options =>
-             {
-                 options.AddPolicy(Constants.Policies.DEFAULT, policy =>
-                 policy.Requirements.Add(new SimpleRequirement()));
-             });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
