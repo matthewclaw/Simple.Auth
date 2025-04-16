@@ -16,15 +16,6 @@ namespace Simple.Auth.Services
 
         public abstract string GenerateToken(IEnumerable<Claim> claims, TimeSpan expiry);
 
-        public virtual string GenerateToken(TimeSpan expiry)
-        {
-            return GenerateToken(GetClaims(), expiry);
-        }
-
-        public virtual string GenerateToken() => GenerateToken(TimeSpan.FromHours(1));
-
-        public virtual IEnumerable<Claim> GetClaims() => Array.Empty<Claim>();
-
         public abstract DateTimeOffset GetTokenExpiry(string token);
 
         public abstract Task<(string accessToken, string refreshToken)> RefreshTokenAsync(string accessToken, string refreshToken);
