@@ -1,6 +1,7 @@
 ﻿using Simple.Auth.Interfaces.Authentication;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
+    [ExcludeFromCodeCoverage]
     public abstract class TokenServiceBase : ITokenService
     {
         public abstract string GenerateRefreshToken();

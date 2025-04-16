@@ -2,12 +2,14 @@
 using Simple.Auth.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Simple.Auth.Stores
 {
+    [ExcludeFromCodeCoverage]
     public class RefreshTokenInMemoryStore : IRefreshTokenStore
     {
         private Dictionary<string, RefreshToken> _refreshTokens = new Dictionary<string, RefreshToken>();
