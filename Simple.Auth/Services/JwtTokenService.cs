@@ -91,18 +91,18 @@ namespace Simple.Auth.Services
             }
         }
 
-        public override async Task<DateTimeOffset> GetTokenExpiry(string token)
+        public override DateTimeOffset GetTokenExpiry(string token)
         {
             if (!ValidateToken(token, true, out var principal))
             {
-                return await Task.FromResult(DateTimeOffset.MinValue);
+                return DateTimeOffset.MinValue;
             }
             var expiryClaim = principal!.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
             if (!long.TryParse(expiryClaim, out var ticks))
             {
-                return await Task.FromResult(DateTimeOffset.MinValue);
+                return DateTimeOffset.MinValue;
             }
-            return await Task.FromResult(DateTimeOffset.FromUnixTimeSeconds(ticks));
+            return DateTimeOffset.FromUnixTimeSeconds(ticks);
         }
 
         protected ClaimsPrincipal GetPrincipalFromExpiredToken(string token)

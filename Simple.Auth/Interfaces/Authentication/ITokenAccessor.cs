@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Interfaces.Authentication
 {
-    public interface ITokenAccessor
+    public interface ITokenAccessor: IHttpContextSwitchable
     {
         /// <summary>
         /// This method will try get the access or session token from the request
@@ -33,5 +34,7 @@ namespace Simple.Auth.Interfaces.Authentication
         /// </summary>
         /// <param name="token"></param>
         void SetRefreshToken(string token);
+
+        void RemoveTokens();
     }
 }

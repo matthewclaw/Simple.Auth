@@ -25,36 +25,42 @@ namespace Simple.Auth.Services
         protected virtual string CookieAccessTokenTokenKey => "access_token";
         protected readonly CookieAccessorOptions CookieAccessorOptions;
 
-        public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor, CookieAccessorOptions options):base(httpContextAccessor)
+        public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor, CookieAccessorOptions options) : base(httpContextAccessor)
         {
             CookieAccessorOptions = options;
         }
 
-        public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor):base(httpContextAccessor)
+        public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
         {
             CookieAccessorOptions = CookieAccessorOptions.Default;
         }
 
         public override void SetRefreshToken(string token)
         {
-            HttpContextAccessor.HttpContext?.Response.Cookies.Append(CookieRefreshTokenKey, token, CookieAccessorOptions.RefreshSetTokenOptions);
+            HttpContext.Response.Cookies.Append(CookieRefreshTokenKey, token, CookieAccessorOptions.RefreshSetTokenOptions);
         }
 
         public override void SetToken(string token)
         {
-            HttpContextAccessor.HttpContext?.Response.Cookies.Append(CookieAccessTokenTokenKey, token, CookieAccessorOptions.TokenSetOptions);
+            HttpContext.Response.Cookies.Append(CookieAccessTokenTokenKey, token, CookieAccessorOptions.TokenSetOptions);
         }
 
         public override bool TryGetRefreshToken(out string token)
         {
-            token = HttpContextAccessor.HttpContext?.Request.Cookies[CookieRefreshTokenKey]?? string.Empty;
+            token = HttpContext.Request.Cookies[CookieRefreshTokenKey] ?? string.Empty;
             return !string.IsNullOrEmpty(token);
         }
 
         public override bool TryGetToken(out string token)
         {
-            token = HttpContextAccessor.HttpContext?.Request.Cookies[CookieAccessTokenTokenKey] ?? string.Empty;
+            token = HttpContext.Request.Cookies[CookieAccessTokenTokenKey] ?? string.Empty;
             return !string.IsNullOrEmpty(token);
+        }
+
+        public override void RemoveTokens()
+        {
+            HttpContext.Response.Cookies.Delete(CookieAccessTokenTokenKey);
+            HttpContext.Response.Cookies.Delete(CookieRefreshTokenKey);
         }
     }
 }

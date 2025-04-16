@@ -22,15 +22,15 @@ namespace Simple.Auth.Configuration
         {
             HttpOnly = true,
             Secure = true,
-            SameSite = SameSiteMode.Strict, // Or Lax, depending on your needs.
-            Expires = DateTimeOffset.UtcNow.AddMinutes(20) // adjust expiration
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTimeOffset.UtcNow.AddMinutes(20)
         },
           new CookieOptions
           {
               HttpOnly = true,
               Secure = true,
-              SameSite = SameSiteMode.Strict, // Or Lax, depending on your needs.
-              Expires = DateTimeOffset.UtcNow.AddDays(30) // adjust expiration
+              SameSite = SameSiteMode.Strict,
+              Expires = DateTimeOffset.UtcNow.AddDays(30)
           });
 
 

@@ -1,4 +1,7 @@
 
+using Simple.Auth.Controllers.Conventions;
+using Simple.Auth.Demo.Services;
+using Simple.Auth.Requirements;
 using System.Security.Cryptography;
 
 namespace Simple.Auth.Demo
@@ -13,14 +16,20 @@ namespace Simple.Auth.Demo
             {
                 options.UseCookies();
                 options.WithConfiguration(builder.Configuration);
-                options.WithDefaultTokenService(s => new Services.JwtTokenService(dummySecret, "me", "you"));
+                options.WithDefaultTokenService(s => new Auth.Services.JwtTokenService(dummySecret, "me", "you"));
+                options.WithUserAuthenticator<UserAuthenticator>();
             });
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(options =>
+            {
+                options.AddSimpleAuthControllers(x =>
+                {
+                    x.WithClassic();
+                });
+            });
             builder.Services.AddHttpContextAccessor();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,7 +40,6 @@ namespace Simple.Auth.Demo
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
 

@@ -23,7 +23,7 @@ namespace Simple.Auth.Services
 
         public virtual IEnumerable<Claim> GetClaims() => Array.Empty<Claim>();
 
-        public abstract Task<DateTimeOffset> GetTokenExpiry(string token);
+        public abstract DateTimeOffset GetTokenExpiry(string token);
 
         public abstract Task<(string accessToken, string refreshToken)> RefreshTokenAsync(string accessToken, string refreshToken);
 
