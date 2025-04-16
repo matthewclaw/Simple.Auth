@@ -40,7 +40,7 @@ namespace Simple.Auth
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
             services.AddStores();
-
+            services.AddSchemes(authenticationOptions);
             services.AddTransient(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
