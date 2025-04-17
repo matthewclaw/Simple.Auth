@@ -12,8 +12,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Tests", "2. Tests", "{EE954371-6D05-4B2B-AE85-F4C2447C2AB2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Demo", "3. Demo", "{B6D425E1-D32D-49D6-B2F7-EE0A198DCAF3}"
+	ProjectSection(SolutionItems) = preProject
+		Simple.Auth.Tests\Fakes\FakeAuthenticationController.cs = Simple.Auth.Tests\Fakes\FakeAuthenticationController.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple.Auth.Tests", "Simple.Auth.Tests\Simple.Auth.Tests.csproj", "{623A4083-E3E5-4F8D-9413-B8CADABA1792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simple.Auth.Tests", "Simple.Auth.Tests\Simple.Auth.Tests.csproj", "{623A4083-E3E5-4F8D-9413-B8CADABA1792}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

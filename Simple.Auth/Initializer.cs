@@ -23,9 +23,11 @@ using Simple.Auth.Controllers.Conventions;
 using Microsoft.AspNetCore.Authorization;
 using System.Runtime.InteropServices;
 using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Simple.Auth
 {
+    [ExcludeFromCodeCoverage]
     public static class Initializer
     {
         public static IServiceCollection AddSimpleAuth(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)

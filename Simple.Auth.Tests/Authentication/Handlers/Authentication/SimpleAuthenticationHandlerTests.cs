@@ -9,7 +9,7 @@ using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Middleware.Handlers.Authentication;
 using Simple.Auth.Services;
-using Simple.Auth.Tests.Helpers;
+using Simple.Auth.Tests.Authentication.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -20,7 +20,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using static Simple.Auth.Constants;
 
-namespace Simple.Auth.Tests.Handlers.Authentication
+namespace Simple.Auth.Tests.Authentication.Handlers.Authentication
 {
     [ExcludeFromCodeCoverage]
     public class SimpleAuthenticationHandlerTests
@@ -30,7 +30,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
         {
             // Arrange
             var mockAuthenticationService = Substitute.For<Interfaces.Authentication.IAuthenticationService>();
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -51,7 +51,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             mockAuthenticationService.GetSessionStateAsync().Returns(SessionState.RefreshValid);
             mockAuthenticationService.TryRefreshAccessAsync().Returns(false);
 
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -74,7 +74,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             mockAuthenticationService.AuthenticateAsync()
                 .Returns(Models.AuthenticationResult.Success(TestObjectFactory.GetClaimsPrincipal()));
 
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -94,7 +94,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             mockAuthenticationService.AuthenticateAsync()
                 .Returns(Models.AuthenticationResult.Success(TestObjectFactory.GetClaimsPrincipal()));
 
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -114,7 +114,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             mockAuthenticationService.AuthenticateAsync()
                 .Returns(Models.AuthenticationResult.Success(TestObjectFactory.GetClaimsPrincipal()));
 
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -136,7 +136,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             mockAuthenticationService.GetTokenExpiry().Returns(DateTimeOffset.UtcNow.AddDays(1));
             mockAuthenticationService.AuthenticateAsync().Throws(new Exception());
 
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             var handler = GetSimpleAuthenticationHandlerInstance(mockAuthenticationService);
             var context = new DefaultHttpContext();
             await handler.InitializeAsync(scheme, context);
@@ -157,7 +157,7 @@ namespace Simple.Auth.Tests.Handlers.Authentication
             var mockLoggerFactory = TestObjectFactory.GetLoggerFactory();
             var mockOptions = Substitute.For<IOptionsMonitor<AuthenticationSchemeOptions>>();
             mockOptions.Get(Arg.Any<string>()).Returns(new AuthenticationSchemeOptions());
-            var scheme = new Microsoft.AspNetCore.Authentication.AuthenticationScheme(Constants.Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
+            var scheme = new AuthenticationScheme(Schemes.DEFAULT, "Simple Scheme", typeof(SimpleAuthenticationHandler));
             return new SimpleAuthenticationHandler(mockOptions, mockLoggerFactory, UrlEncoder.Default,
                 authenticationService, mockCorrelationService);
         }

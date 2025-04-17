@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Simple.Auth.Tests.Helpers
+namespace Simple.Auth.Tests.Authentication.Helpers
 {
     [ExcludeFromCodeCoverage]
     public static class TestObjectFactory
