@@ -61,12 +61,12 @@ namespace Simple.Auth.Services
             return SessionState.RefreshValid;
         }
 
-        public async Task<(string accessToken, string refreshToken)> StartSessionAsync(object request)
+        public async Task<(string accessToken, string refreshToken, ClaimsPrincipal principal)> StartSessionAsync(object request)
         {
             var userAuthResult = await UserAuthenticator.AuthenticateUserAsync(request);
             if (!userAuthResult.Succeeded)
             {
-                throw new Exception("Invalid sign-in details");
+                throw new ArgumentException("Invalid sign-in details");
             }
             var newCorrelation = CorrelationService.GenerateCorrelationId();
             CorrelationService.SetCorrelationId(newCorrelation);
@@ -75,7 +75,7 @@ namespace Simple.Auth.Services
             TokenAccessor.SetToken(token);
             TokenAccessor.SetRefreshToken(refresh);
             await StoreRefreshTokenAsync(refresh);
-            return (token, refresh);
+            return (token, refresh, userAuthResult.Principal!);
         }
 
         public async Task<bool> TryRefreshAccessAsync()

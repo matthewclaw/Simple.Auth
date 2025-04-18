@@ -3,6 +3,7 @@ using Simple.Auth.Configuration;
 using Simple.Auth.Interfaces.Authentication;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ namespace Simple.Auth.Services
     /// <summary>
     /// Provides access to tokens stored in cookies.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class CookieTokenAccessor : HttpTokenAccessor
     {
         /// <summary>
@@ -28,6 +30,14 @@ namespace Simple.Auth.Services
         public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor, CookieAccessorOptions options) : base(httpContextAccessor)
         {
             CookieAccessorOptions = options;
+        }
+
+        /// <summary>
+        /// To only be used in unit testing substitues
+        /// </summary>
+        public CookieTokenAccessor():this(null, new CookieAccessorOptions())
+        {
+
         }
 
         public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)

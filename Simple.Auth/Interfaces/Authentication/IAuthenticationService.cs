@@ -13,7 +13,7 @@ namespace Simple.Auth.Interfaces.Authentication
     public interface IAuthenticationService : IHttpContextSwitchable
     {
         Task<bool> TryRefreshAccessAsync();
-        Task<(string accessToken, string refreshToken)> StartSessionAsync(object request);
+        Task<(string accessToken, string refreshToken, ClaimsPrincipal principal)> StartSessionAsync(object request);
         Task EndSessionAsync();
         Task<AuthenticationResult> AuthenticateAsync(string accessToken);
         Task<AuthenticationResult> AuthenticateAsync();

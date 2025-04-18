@@ -21,7 +21,7 @@ namespace Simple.Auth.Builders
         private Func<IServiceProvider, ITokenService>? _tokenServiceFactory;
         private Type? _tokenServiceType;
         private Type? _userAuthenticatorType;
-        private List<Action<AuthenticationBuilder>> _schemeAdditions = new List<Action<AuthenticationBuilder>>();
+        private Dictionary<string, Action<AuthenticationBuilder>> _schemeAdditionsMap = new();
 
         /// <summary>
         /// Builds the AuthenticationOptions instance based on the configured settings.
@@ -53,7 +53,8 @@ namespace Simple.Auth.Builders
             {
                 throw new InvalidOperationException($".{nameof(WithUserAuthenticator)} must be called");
             }
-            return new Configuration.AuthenticationOptions(_configuration, tokenAccessOptions, tokenServiceOptions, _userAuthenticatorType, _schemeAdditions);
+            var schemeAdditions = _schemeAdditionsMap.Select(x => x.Value).ToList();
+            return new Configuration.AuthenticationOptions(_configuration, tokenAccessOptions, tokenServiceOptions, _userAuthenticatorType, schemeAdditions);
         }
 
         /// <summary>
@@ -67,7 +68,11 @@ namespace Simple.Auth.Builders
         public AuthenticationOptionsBuilder AddScheme<THandler>(string authenticationScheme, string? displayName, Action<AuthenticationSchemeOptions>? configureOptions)
                 where THandler : AuthenticationHandler<AuthenticationSchemeOptions>
         {
-            _schemeAdditions.Add((b) => b.AddScheme<AuthenticationSchemeOptions, THandler>(authenticationScheme, displayName, configureOptions));
+            if (_schemeAdditionsMap.ContainsKey(authenticationScheme))
+            {
+                throw new InvalidOperationException($"Scheme `{authenticationScheme}` already added.");
+            }
+            _schemeAdditionsMap.Add(authenticationScheme, (b) => b.AddScheme<AuthenticationSchemeOptions, THandler>(authenticationScheme, displayName, configureOptions));
             return this;
         }
 

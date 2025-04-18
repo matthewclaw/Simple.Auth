@@ -22,9 +22,6 @@ namespace Simple.Auth.Middleware.Handlers.Authorization
             ICorrelationService correlationService)
         {
             _logger = loggerFactory.CreateLogger<RequirementHandler>();
-            //_refreshThreshold = TimeSpan.FromMinutes(5);
-            //_authorizationService = authorizationService;
-            //_correlationService = correlationService;
         }
 
 

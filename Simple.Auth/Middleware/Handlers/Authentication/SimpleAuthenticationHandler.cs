@@ -27,6 +27,8 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
             _logger = loggerFactory.CreateLogger<SimpleAuthenticationHandler>();
             _refreshThreshold = TimeSpan.FromMinutes(5);
         }
+
+
         private async Task<bool> CheckForAutomaticRefreshAsync()
         {
             var tokenExpiry = _athenticationService.GetTokenExpiry();
@@ -35,13 +37,10 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
             {
                 return true;
             }
-            if (timeLeft <= TimeSpan.Zero)
-            {
-                return false;
-            }
             _logger.LogInformation("Refreshing token");
             return await _athenticationService.TryRefreshAccessAsync();
         }
+
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             try

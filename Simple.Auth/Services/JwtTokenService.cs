@@ -6,9 +6,11 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Simple.Auth.Services
 {
+    [ExcludeFromCodeCoverage]
     public class JwtTokenService : TokenServiceBase
     {
         protected readonly string SecretKey;
