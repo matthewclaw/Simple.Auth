@@ -84,7 +84,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "valid_refresh"; return true; });
             _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
-            _refreshTokenStore.GetAsync("valid_refresh").Returns(new RefreshToken { Expiry = DateTimeOffset.UtcNow.AddDays(1), IpAddress =clientIp });
+            _refreshTokenStore.GetAsync("valid_refresh").Returns(new RefreshTokenDetails { Expiry = DateTimeOffset.UtcNow.AddDays(1), IpAddress =clientIp });
 
             _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].Returns((Microsoft.Extensions.Primitives.StringValues)clientIp);
 
@@ -102,7 +102,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_refresh"; return true; });
             _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
-            _refreshTokenStore.GetAsync("invalid_refresh").Returns(null as RefreshToken);
+            _refreshTokenStore.GetAsync("invalid_refresh").Returns(null as RefreshTokenDetails);
 
             // Act
             var result = await _authService.GetSessionStateAsync();
@@ -168,7 +168,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             // Arrange
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_refresh"; return true; });
-            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshToken("", "", DateTimeOffset.UtcNow.AddDays(-1)));
+            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshTokenDetails("", "", DateTimeOffset.UtcNow.AddDays(-1)));
 
             // Act
             var result = await _authService.TryRefreshAccessAsync();
@@ -185,7 +185,7 @@ namespace Simple.Auth.Tests.Authentication.Services
         public async Task TryRefreshAccessAsync_RefreshTokenFails_ReturnsFalse()
         {
             // Arrange
-            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshToken("", "", DateTimeOffset.UtcNow.AddDays(1)));
+            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshTokenDetails("", "", DateTimeOffset.UtcNow.AddDays(1)));
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "old_refresh"; return true; });
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "old_token"; return true; });
             _tokenService.RefreshTokenAsync("old_token", "old_refresh").ThrowsAsync(new Exception("Refresh failed"));
@@ -205,7 +205,7 @@ namespace Simple.Auth.Tests.Authentication.Services
         public async Task TryRefreshAccessAsync_RefreshTokenSucceeds_UpdatesTokensAndReturnsTrue()
         {
             // Arrange
-            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshToken("", "test_client_ip", DateTimeOffset.UtcNow.AddDays(1)));
+            _refreshTokenStore.GetAsync(Arg.Any<string>()).Returns(new RefreshTokenDetails("", "test_client_ip", DateTimeOffset.UtcNow.AddDays(1)));
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "old_refresh"; return true; });
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "old_token"; return true; });
             var newAccessToken = "new_access";

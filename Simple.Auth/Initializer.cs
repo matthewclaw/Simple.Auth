@@ -30,12 +30,11 @@ namespace Simple.Auth
     [ExcludeFromCodeCoverage]
     public static class Initializer
     {
-        public static IServiceCollection AddSimpleAuth(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)
+        public static IServiceCollection AddSimpleAuthentication(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)
         {
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
             var authenticationOptions = builder.Build();
-
             services.AddSingleton(authenticationOptions);
 
             services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)

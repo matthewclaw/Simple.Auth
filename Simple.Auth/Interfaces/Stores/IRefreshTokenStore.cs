@@ -11,6 +11,6 @@ namespace Simple.Auth.Interfaces.Stores
     {
         Task BlacklistAsync(string refreshToken);
         Task<bool> InsertAsync(string refreshToken, string ipAddress, DateTimeOffset expiry);
-        Task<RefreshToken> GetAsync(string refreshToken);
+        Task<RefreshTokenDetails> GetAsync(string refreshToken);
     }
 }
