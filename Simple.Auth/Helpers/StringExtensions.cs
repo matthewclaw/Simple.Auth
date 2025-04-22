@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Simple.Auth.Helpers
 {
+    [ExcludeFromCodeCoverage]
     public static class StringExtensions
     {
         /// <summary>

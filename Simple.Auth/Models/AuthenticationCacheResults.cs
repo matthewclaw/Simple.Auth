@@ -33,19 +33,19 @@ namespace Simple.Auth.Models
             BlacklistedOn = blacklistedOn;
         }
 
-        internal static AuthenticationCacheResults None()
+        public static AuthenticationCacheResults None()
         {
             return new AuthenticationCacheResults(AuthenticationCacheType.None, null, null, null);
         }
-        internal static AuthenticationCacheResults ForPrincipal(ClaimsPrincipal principal)
+        public static AuthenticationCacheResults ForPrincipal(ClaimsPrincipal principal)
         {
             return new AuthenticationCacheResults(AuthenticationCacheType.Principal, principal, null, null);
         }
-        internal static AuthenticationCacheResults ForRefreshDetails(RefreshTokenDetails refreshTokenDetails)
+        public static AuthenticationCacheResults ForRefreshDetails(RefreshTokenDetails refreshTokenDetails)
         {
             return new AuthenticationCacheResults(AuthenticationCacheType.Refresh, null, refreshTokenDetails, null);
         }
-        internal static AuthenticationCacheResults Blacklisted(DateTime blacklistedOn)
+        public static AuthenticationCacheResults Blacklisted(DateTime blacklistedOn)
         {
             return new AuthenticationCacheResults(AuthenticationCacheType.BlackListed, null, null, blacklistedOn);
         }

@@ -23,11 +23,12 @@ namespace Simple.Auth.Services
         protected readonly ICorrelationService CorrelationService;
         protected readonly IUserAuthenticator UserAuthenticator;
         protected readonly ICorrelationLogger Logger;
+        protected readonly IAuthenticationCache Cache;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
 
         public AuthenticationService(IHttpContextAccessor httpContextAccessor,
             HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
-            ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory)
+            ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory, IAuthenticationCache cache)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
@@ -36,6 +37,7 @@ namespace Simple.Auth.Services
             CorrelationService = correlationService;
             UserAuthenticator = userAuthenticator;
             Logger = loggerFactory.CreateLogger<AuthenticationService>();
+            Cache = cache;
         }
 
         public async Task<SessionState> GetSessionStateAsync()
@@ -60,7 +62,6 @@ namespace Simple.Auth.Services
             }
             return SessionState.RefreshValid;
         }
-
         public async Task<(string accessToken, string refreshToken, ClaimsPrincipal principal)> StartSessionAsync(object request)
         {
             var userAuthResult = await UserAuthenticator.AuthenticateUserAsync(request);
@@ -74,6 +75,7 @@ namespace Simple.Auth.Services
             var refresh = TokenService.GenerateRefreshToken();
             TokenAccessor.SetToken(token);
             TokenAccessor.SetRefreshToken(refresh);
+            Cache.SetPrincipal(token, userAuthResult.Principal);
             await StoreRefreshTokenAsync(refresh);
             return (token, refresh, userAuthResult.Principal!);
         }
@@ -85,11 +87,11 @@ namespace Simple.Auth.Services
             {
                 return false;
             }
-            TokenAccessor.TryGetRefreshToken(out var refresh);
-            TokenAccessor.TryGetToken(out var token);
+            TokenAccessor.TryGetRefreshToken(out var oldRefresh);
+            TokenAccessor.TryGetToken(out var oldAccess);
             try
             {
-                var (newAccess, newRefresh) = await TokenService.RefreshTokenAsync(token, refresh);
+                var (newAccess, newRefresh) = await TokenService.RefreshTokenAsync(oldAccess, oldRefresh);
                 TokenAccessor.SetToken(newAccess);
                 TokenAccessor.SetRefreshToken(newRefresh);
                 await StoreRefreshTokenAsync(newRefresh);
@@ -99,18 +101,39 @@ namespace Simple.Auth.Services
             {
                 return false;
             }
+            finally
+            {
+                Cache.RemoveDetailsAndBlacklistRefreshToken(oldRefresh);
+                Cache.RemovePrincipalAndBlacklistToken(oldAccess);
+            }
         }
 
         private async Task StoreRefreshTokenAsync(string refreshToken)
         {
             var clientIp = HttpContextAccessor.GetClientIpAddress();
             var expirey = DateTimeOffset.UtcNow + RefreshTokenLifeSpan;
-            await RefreshTokenStore.InsertAsync(refreshToken, clientIp, expirey);
+            var refreshTokenDetails = new RefreshTokenDetails(refreshToken, clientIp, expirey);
+            await RefreshTokenStore.InsertAsync(refreshTokenDetails);
+            Cache.SetRefreshTokenDetails(refreshToken, refreshTokenDetails);
         }
 
         private async Task<bool> ValidateRefreshTokenAsync(string refresh)
         {
-            var storedToken = await RefreshTokenStore.GetAsync(refresh);
+            RefreshTokenDetails? storedToken = null;
+            var cached = Cache.GetRefreshTokenDetails(refresh);
+            if (cached.CacheType == AuthenticationCacheType.BlackListed)
+            {
+                Logger.LogWarning("Refresh token was blacklisted on {blacklistedDate}", cached.BlacklistedOn);
+                return false;
+            }
+            if (cached.Found)
+            {
+                storedToken = cached.RefreshTokenDetails!;
+            }
+            else
+            {
+                storedToken = await RefreshTokenStore.GetAsync(refresh);
+            }
             if (storedToken == null)
             {
                 return false;
@@ -144,7 +167,19 @@ namespace Simple.Auth.Services
 
         public async Task<AuthenticationResult> AuthenticateAsync(string accessToken)
         {
-            return await UserAuthenticator.AuthenticateUserAsync(accessToken);
+            var cached = Cache.GetPrincipal(accessToken);
+            switch (cached.CacheType)
+            {
+                case AuthenticationCacheType.None:
+                    return await UserAuthenticator.AuthenticateUserAsync(accessToken);
+                case AuthenticationCacheType.Principal:
+                    return AuthenticationResult.Success(cached.ClaimsPrincipal!);
+                case AuthenticationCacheType.BlackListed:
+                    Logger.LogWarning("Access Token was blacklisted on {blacklistDate}", cached.BlacklistedOn);
+                    return AuthenticationResult.Failure($"Access Token was blacklisted on {cached.BlacklistedOn}");
+            }
+
+            throw new InvalidOperationException();
         }
 
         public async Task<AuthenticationResult> AuthenticateAsync()
@@ -158,7 +193,7 @@ namespace Simple.Auth.Services
 
         public async Task EndSessionAsync()
         {
-            if(!this.TokenAccessor.TryGetRefreshToken(out var refresh))
+            if (!this.TokenAccessor.TryGetRefreshToken(out var refresh))
             {
                 return;
             }

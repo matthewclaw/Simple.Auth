@@ -31,6 +31,7 @@ namespace Simple.Auth.Services.Authentication
             _blacklistOptions = new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(30) };
             _jsonSerializerOptions = new JsonSerializerOptions();
             _jsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
+            _jsonSerializerOptions.Converters.Add(new ClaimConverter());
         }
 
         public AuthenticationCacheResults GetPrincipal(string accessToken)
@@ -108,7 +109,7 @@ namespace Simple.Auth.Services.Authentication
             var hash = accessToken.GenerateBasicHash();
             var key = GetPrincipalKey(hash);
             var serialized = Serialize(principal);
-            _cache.SetString(key, serialized);
+            _cache.SetString(key, serialized,_defaultOptions);
         }
 
         public void SetRefreshTokenDetails(string refreshToken, RefreshTokenDetails tokenDetails)
@@ -116,7 +117,7 @@ namespace Simple.Auth.Services.Authentication
             var hash = refreshToken.GenerateBasicHash();
             var key = GetRefreshKey(hash);
             var serialized = Serialize(tokenDetails);
-            _cache.SetString(key, serialized);
+            _cache.SetString(key, serialized, _defaultOptions);
         }
 
         private void BlackList(string hash, DateTime date)

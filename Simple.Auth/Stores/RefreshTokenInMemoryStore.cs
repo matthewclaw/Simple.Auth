@@ -2,12 +2,14 @@
 using Simple.Auth.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Simple.Auth.Stores
 {
+    [ExcludeFromCodeCoverage]
     public class RefreshTokenInMemoryStore : IRefreshTokenStore
     {
         private Dictionary<string, RefreshTokenDetails> _refreshTokens = new Dictionary<string, RefreshTokenDetails>();
@@ -32,9 +34,11 @@ namespace Simple.Auth.Stores
         }
 
         public async Task<bool> InsertAsync(string refreshToken, string ipAddress, DateTimeOffset expiry)
+        =>await InsertAsync(new RefreshTokenDetails(refreshToken, ipAddress, expiry));
+
+        public async Task<bool> InsertAsync(RefreshTokenDetails details)
         {
-            var token = new RefreshTokenDetails(refreshToken, ipAddress, expiry);
-            _refreshTokens[refreshToken] = token;
+            _refreshTokens[details.Token] = details;
             return await Task.FromResult(true);
         }
     }

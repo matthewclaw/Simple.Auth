@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Simple.Auth.Helpers;
 using NSubstitute.ExceptionExtensions;
+using Simple.Auth.Tests.Authentication.TestImplementations;
 
 namespace Simple.Auth.Tests.Authentication.Services
 {
@@ -28,6 +29,7 @@ namespace Simple.Auth.Tests.Authentication.Services
         private readonly ICorrelationLogger _logger;
         private readonly ICorrelationLoggerFactory _loggerFactory;
         private readonly AuthenticationService _authService;
+        private readonly IAuthenticationCache _cache;
 
         public AuthenticationServiceTests()
         {
@@ -40,7 +42,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _logger = Substitute.For<ICorrelationLogger>();
             _loggerFactory = Substitute.For<ICorrelationLoggerFactory>();
             _loggerFactory.CreateLogger<AuthenticationService>().Returns(_logger);
-
+            _cache = new TestAuthenticationCache();
             _authService = new AuthenticationService(
                 _httpContextAccessor,
                 _tokenAccessor,
@@ -48,7 +50,8 @@ namespace Simple.Auth.Tests.Authentication.Services
                 _refreshTokenStore,
                 _correlationService,
                 _userAuthenticator,
-                _loggerFactory);
+                _loggerFactory,
+                _cache);
         }
 
         [Fact]
@@ -84,7 +87,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "valid_refresh"; return true; });
             _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
-            _refreshTokenStore.GetAsync("valid_refresh").Returns(new RefreshTokenDetails { Expiry = DateTimeOffset.UtcNow.AddDays(1), IpAddress =clientIp });
+            _refreshTokenStore.GetAsync("valid_refresh").Returns(new RefreshTokenDetails { Expiry = DateTimeOffset.UtcNow.AddDays(1), IpAddress = clientIp });
 
             _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].Returns((Microsoft.Extensions.Primitives.StringValues)clientIp);
 
@@ -96,6 +99,27 @@ namespace Simple.Auth.Tests.Authentication.Services
         }
 
         [Fact]
+        public async Task GetSessionStateAsync_InvalidToken_ValidRefreshTokenInCache_ReturnsRefreshValid()
+        {
+            // Arrange
+            var clientIp = "client_ip";
+            var refreshToken = "valid_refresh";
+            var refreshTokenDetails = new RefreshTokenDetails { Expiry = DateTimeOffset.UtcNow.AddDays(1), IpAddress = clientIp };
+            _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
+            _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = refreshToken; return true; });
+            _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
+            _cache.SetRefreshTokenDetails(refreshToken, refreshTokenDetails);
+            _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].Returns((Microsoft.Extensions.Primitives.StringValues)clientIp);
+
+            // Act
+            var result = await _authService.GetSessionStateAsync();
+
+            // Assert
+            Assert.Equal(SessionState.RefreshValid, result);
+            _refreshTokenStore.DidNotReceive().GetAsync(Arg.Any<string>());
+        }
+
+        [Fact]
         public async Task GetSessionStateAsync_InvalidToken_InvalidRefreshToken_ReturnsInvalid()
         {
             // Arrange
@@ -103,6 +127,24 @@ namespace Simple.Auth.Tests.Authentication.Services
             _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_refresh"; return true; });
             _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
             _refreshTokenStore.GetAsync("invalid_refresh").Returns(null as RefreshTokenDetails);
+
+            // Act
+            var result = await _authService.GetSessionStateAsync();
+
+            // Assert
+            Assert.Equal(SessionState.Invalid, result);
+            _logger.Received().LogWarning("Could not refresh session");
+        }
+
+        [Fact]
+        public async Task GetSessionStateAsync_RefreshTokenCacheBlacklisted_ReturnsInvalid()
+        {
+            // Arrange
+            var refreshToken = "invalid_refresh";
+            _tokenAccessor.TryGetToken(out Arg.Any<string>()).Returns(x => { x[0] = "invalid_token"; return true; });
+            _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = refreshToken; return true; });
+            _tokenService.ValidateTokenAsync("invalid_token").Returns(false);
+            _cache.RemoveDetailsAndBlacklistRefreshToken(refreshToken);
 
             // Act
             var result = await _authService.GetSessionStateAsync();
@@ -159,7 +201,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _correlationService.Received().SetCorrelationId(correlationId);
             _tokenAccessor.Received().SetToken(accessToken);
             _tokenAccessor.Received().SetRefreshToken(refreshToken);
-            await _refreshTokenStore.Received().InsertAsync(refreshToken, clientIp, Arg.Is<DateTimeOffset>(d => d > DateTimeOffset.UtcNow.AddDays(6)));
+            await _refreshTokenStore.Received().InsertAsync(Arg.Is<RefreshTokenDetails>(r => r.Token == refreshToken));
         }
 
         [Fact]
@@ -226,7 +268,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             await _tokenService.Received().RefreshTokenAsync("old_token", "old_refresh");
             _tokenAccessor.Received().SetToken(newAccessToken);
             _tokenAccessor.Received().SetRefreshToken(newRefreshToken);
-            await _refreshTokenStore.Received().InsertAsync(newRefreshToken, clientIp, Arg.Is<DateTimeOffset>(d => d > DateTimeOffset.UtcNow.AddDays(6)));
+            await _refreshTokenStore.Received().InsertAsync(Arg.Is<RefreshTokenDetails>(r => r.Token == newRefreshToken));
         }
 
         [Fact]
@@ -302,6 +344,38 @@ namespace Simple.Auth.Tests.Authentication.Services
             // Assert
             Assert.Equal(authResult, result);
             await _userAuthenticator.Received().AuthenticateUserAsync(accessToken);
+        }
+
+        [Fact]
+        public async Task AuthenticateAsync_WithAccessTokenInCache_DoesNotCallUserAuthenticator()
+        {
+            // Arrange
+            var accessToken = "test_access_token";
+            var principal = new ClaimsPrincipal();
+            var authResult = AuthenticationResult.Success(principal);
+            _cache.SetPrincipal(accessToken, principal);
+
+            // Act
+            var result = await _authService.AuthenticateAsync(accessToken);
+
+            // Assert
+            Assert.True(result.Succeeded);
+            await _userAuthenticator.DidNotReceive().AuthenticateUserAsync(accessToken);
+        }
+
+        [Fact]
+        public async Task AuthenticateAsync_WithAccessTokenBlacklisted_DoesNotCallUserAuthenticator()
+        {
+            // Arrange
+            var accessToken = "test_access_token";
+            _cache.RemovePrincipalAndBlacklistToken(accessToken);
+
+            // Act
+            var result = await _authService.AuthenticateAsync(accessToken);
+
+            // Assert
+            Assert.False(result.Succeeded);
+            await _userAuthenticator.DidNotReceive().AuthenticateUserAsync(accessToken);
         }
 
         [Fact]
