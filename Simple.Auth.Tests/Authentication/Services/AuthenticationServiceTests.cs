@@ -189,7 +189,6 @@ namespace Simple.Auth.Tests.Authentication.Services
             _tokenService.GenerateToken(Arg.Any<IEnumerable<Claim>>(), Arg.Any<TimeSpan>()).Returns(accessToken);
             _tokenService.GenerateRefreshToken().Returns(refreshToken);
             _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-For"].Returns((Microsoft.Extensions.Primitives.StringValues)clientIp);
-            //_httpContextAccessor.GetClientIpAddress().Returns(clientIp);
 
             // Act
             var (actualAccessToken, actualRefreshToken, actualPrincipal) = await _authService.StartSessionAsync(request);
@@ -275,7 +274,7 @@ namespace Simple.Auth.Tests.Authentication.Services
         public async Task EndSessionAsync_HasRefreshToken_BlacklistsAndRemovesTokens()
         {
             // Arrange
-            _tokenAccessor.TryGetRefreshToken(out var refresh).Returns(x => { x[0] = "old_refresh"; return true; });
+            _tokenAccessor.TryGetRefreshToken(out Arg.Any<string>()).Returns(x => { x[0] = "old_refresh"; return true; });
 
             // Act
             await _authService.EndSessionAsync();

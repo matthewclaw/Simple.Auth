@@ -21,7 +21,7 @@ namespace Simple.Auth.Tests.Authentication.Helpers
             var mockBaseLoggerFactory = Substitute.For<ILoggerFactory>();
             var mockServiceProvider = Substitute.For<IServiceProvider>();
             var mockCorrelationService = Substitute.For<ICorrelationService>();
-            var loggerFactory = new CorrelationLoggerFactory(mockBaseLoggerFactory, mockServiceProvider, mockCorrelationService);
+            var loggerFactory = CorrelationLoggerFactory.GetInstance(mockBaseLoggerFactory, mockServiceProvider, mockCorrelationService);
             return loggerFactory;
         }
 

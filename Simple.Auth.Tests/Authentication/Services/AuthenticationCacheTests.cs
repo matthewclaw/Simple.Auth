@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Simple.Auth.Converters;
@@ -25,10 +26,11 @@ namespace Simple.Auth.Tests.Authentication.Services
         public AuthenticationCacheTests()
         {
             _mockCache = Substitute.For<IDistributedCache>();
-            _authenticationCache = new AuthenticationCache(_mockCache);
-            _jsonSerializerOptions = new JsonSerializerOptions();
-            _jsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
-            _jsonSerializerOptions.Converters.Add(new ClaimConverter());
+            var jsonOptions = Options.Create(new Microsoft.AspNetCore.Mvc.JsonOptions());
+            jsonOptions.Value.JsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
+            jsonOptions.Value.JsonSerializerOptions.Converters.Add(new ClaimConverter());
+            _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
+            _authenticationCache = new AuthenticationCache(_mockCache, jsonOptions);
         }
 
         private string GenerateHash(string input) => input.GenerateBasicHash();
@@ -144,7 +146,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             // Arrange
             var refreshToken = "testRefreshToken";
             var hash = GenerateHash(refreshToken);
-            var refreshTokenDetails = new RefreshTokenDetails(refreshToken,"ip_address", DateTimeOffset.UtcNow.AddDays(2));
+            var refreshTokenDetails = new RefreshTokenDetails(refreshToken, "ip_address", DateTimeOffset.UtcNow.AddDays(2));
             var serializedBytes = GetBytes(Serialize(refreshTokenDetails));
             _mockCache.Get(AuthenticationCache.REFRESH_TOKEN_KEY_PREFIX + hash).Returns(serializedBytes);
 
@@ -286,7 +288,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _mockCache.When(c => c.Set(AuthenticationCache.REFRESH_TOKEN_KEY_PREFIX + hash, Arg.Any<byte[]>(), Arg.Any<DistributedCacheEntryOptions>()))
                 .Do(callInfo =>
                 {
-                    storedValue =GetString(callInfo.Arg<byte[]>());
+                    storedValue = GetString(callInfo.Arg<byte[]>());
                     storedOptions = callInfo.Arg<DistributedCacheEntryOptions>();
                 });
 
@@ -311,7 +313,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _mockCache.Get(AuthenticationCache.BLACKLISTED_KEY_PREFIX + hash).Returns(serializedBytes);
 
             // Act
-            var isBlacklisted = _authenticationCache.IsBlackListed(hash, out var date);
+            var isBlacklisted = _authenticationCache.IsHashBlackListed(hash, out var date);
 
             // Assert
             Assert.True(isBlacklisted);
@@ -326,7 +328,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             var hash = "testHash";
 
             // Act
-            var isBlacklisted = _authenticationCache.IsBlackListed(hash, out var date);
+            var isBlacklisted = _authenticationCache.IsHashBlackListed(hash, out var date);
 
             // Assert
             Assert.False(isBlacklisted);
@@ -342,7 +344,7 @@ namespace Simple.Auth.Tests.Authentication.Services
             _mockCache.Get(AuthenticationCache.BLACKLISTED_KEY_PREFIX + hash).Throws(new Exception("Cache error"));
 
             // Act
-            var isBlacklisted = _authenticationCache.IsBlackListed(hash, out var date);
+            var isBlacklisted = _authenticationCache.IsHashBlackListed(hash, out var date);
 
             // Assert
             Assert.False(isBlacklisted);

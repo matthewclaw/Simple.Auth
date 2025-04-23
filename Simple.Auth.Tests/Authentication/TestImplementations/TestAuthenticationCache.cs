@@ -44,6 +44,17 @@ namespace Simple.Auth.Tests.Authentication.TestImplementations
             return AuthenticationCacheResults.None();
         }
 
+        public bool IsBlacklisted(string token, out DateTime? date)
+        {
+            if (_blacklist.ContainsKey(token))
+            {
+                date = _blacklist[token];
+                return true;
+            }
+            date = null;
+            return false;
+        }
+
         public void RemoveDetailsAndBlacklistRefreshToken(string refreshToken, DateTime? date = null)
         {
             var hash = refreshToken.GenerateBasicHash();
