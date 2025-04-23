@@ -20,5 +20,6 @@ namespace Simple.Auth.Interfaces.Stores
 
         void SetPrincipal(string accessToken, ClaimsPrincipal principal);
         void SetRefreshTokenDetails(string refreshToken, RefreshTokenDetails tokenDetails);
+        bool IsBlacklisted(string token, out DateTime? date);
     }
 }

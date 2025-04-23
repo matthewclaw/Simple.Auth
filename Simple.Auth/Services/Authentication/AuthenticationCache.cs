@@ -1,11 +1,14 @@
 ﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using Simple.Auth.Converters;
 using Simple.Auth.Helpers;
 using Simple.Auth.Interfaces.Stores;
 using Simple.Auth.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -21,23 +24,30 @@ namespace Simple.Auth.Services.Authentication
         public const string REFRESH_TOKEN_KEY_PREFIX = "_sa:rt:";
         public const string USER_PRINCIPAL_KEY_PREFIX = "_sa:cp:";
         private readonly DistributedCacheEntryOptions _blacklistOptions;
-        private readonly IDistributedCache _cache;
+        private readonly IDistributedCache? _cache;
         private readonly DistributedCacheEntryOptions _defaultOptions;
         private readonly JsonSerializerOptions _jsonSerializerOptions;
-        public AuthenticationCache(IDistributedCache cache)
+
+        [ExcludeFromCodeCoverage]
+        public AuthenticationCache(IOptions<JsonOptions> jsonOptions) : this(null,jsonOptions)
+        {
+        }
+        public AuthenticationCache(IDistributedCache? cache, IOptions<JsonOptions> jsonOptions)
         {
             _cache = cache;
             _defaultOptions = new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30) };
             _blacklistOptions = new DistributedCacheEntryOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromDays(30) };
-            _jsonSerializerOptions = new JsonSerializerOptions();
-            _jsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
-            _jsonSerializerOptions.Converters.Add(new ClaimConverter());
+            _jsonSerializerOptions = jsonOptions.Value.JsonSerializerOptions;
         }
 
         public AuthenticationCacheResults GetPrincipal(string accessToken)
         {
+            if(_cache == null)
+            {
+                return AuthenticationCacheResults.None();
+            }
             var hash = accessToken.GenerateBasicHash();
-            if (IsBlackListed(hash, out var date))
+            if (IsHashBlackListed(hash, out var date))
             {
                 return AuthenticationCacheResults.Blacklisted(date!.Value);
             }
@@ -49,7 +59,7 @@ namespace Simple.Auth.Services.Authentication
                 {
                     return AuthenticationCacheResults.None();
                 }
-                ClaimsPrincipal principal = JsonSerializer.Deserialize<ClaimsPrincipal>(cachedItem, _jsonSerializerOptions)!;
+                ClaimsPrincipal principal = Deserialize<ClaimsPrincipal>(cachedItem)!;
                 return AuthenticationCacheResults.ForPrincipal(principal);
             }
             catch
@@ -60,8 +70,12 @@ namespace Simple.Auth.Services.Authentication
 
         public AuthenticationCacheResults GetRefreshTokenDetails(string refreshToken)
         {
+            if (_cache == null)
+            {
+                return AuthenticationCacheResults.None();
+            }
             var hash = refreshToken.GenerateBasicHash();
-            if (IsBlackListed(hash, out var date))
+            if (IsHashBlackListed(hash, out var date))
             {
                 return AuthenticationCacheResults.Blacklisted(date!.Value);
             }
@@ -73,7 +87,7 @@ namespace Simple.Auth.Services.Authentication
                 {
                     return AuthenticationCacheResults.None();
                 }
-                RefreshTokenDetails refreshDetails = JsonSerializer.Deserialize<RefreshTokenDetails>(cachedItem, _jsonSerializerOptions)!;
+                RefreshTokenDetails refreshDetails = Deserialize<RefreshTokenDetails>(cachedItem)!;
                 return AuthenticationCacheResults.ForRefreshDetails(refreshDetails);
             }
             catch
@@ -84,6 +98,10 @@ namespace Simple.Auth.Services.Authentication
 
         public void RemoveDetailsAndBlacklistRefreshToken(string refreshToken, DateTime? date = null)
         {
+            if (_cache == null)
+            {
+                return;
+            }
             var hash = refreshToken.GenerateBasicHash();
             if (date == null)
             {
@@ -95,6 +113,10 @@ namespace Simple.Auth.Services.Authentication
 
         public void RemovePrincipalAndBlacklistToken(string accessToken, DateTime? date = null)
         {
+            if (_cache == null)
+            {
+                return;
+            }
             var hash = accessToken.GenerateBasicHash();
             if (date == null)
             {
@@ -106,6 +128,10 @@ namespace Simple.Auth.Services.Authentication
 
         public void SetPrincipal(string accessToken, ClaimsPrincipal principal)
         {
+            if (_cache == null)
+            {
+                return;
+            }
             var hash = accessToken.GenerateBasicHash();
             var key = GetPrincipalKey(hash);
             var serialized = Serialize(principal);
@@ -114,6 +140,10 @@ namespace Simple.Auth.Services.Authentication
 
         public void SetRefreshTokenDetails(string refreshToken, RefreshTokenDetails tokenDetails)
         {
+            if (_cache == null)
+            {
+                return;
+            }
             var hash = refreshToken.GenerateBasicHash();
             var key = GetRefreshKey(hash);
             var serialized = Serialize(tokenDetails);
@@ -122,8 +152,12 @@ namespace Simple.Auth.Services.Authentication
 
         private void BlackList(string hash, DateTime date)
         {
+            if (_cache == null)
+            {
+                return;
+            }
             var key = BLACKLISTED_KEY_PREFIX + hash;
-            var serialized = Serialize(date);
+            var serialized =Serialize(date);
             _cache.SetString(key, serialized);
         }
 
@@ -136,8 +170,13 @@ namespace Simple.Auth.Services.Authentication
         {
             return REFRESH_TOKEN_KEY_PREFIX + refreshTokenHash;
         }
-        public bool IsBlackListed(string hash, out DateTime? date)
+        public bool IsHashBlackListed(string hash, out DateTime? date)
         {
+            if (_cache == null)
+            {
+                date = null;
+                return false;
+            }
             var key = BLACKLISTED_KEY_PREFIX + hash;
             try
             {
@@ -147,7 +186,7 @@ namespace Simple.Auth.Services.Authentication
                     date = null;
                     return false;
                 }
-                date = JsonSerializer.Deserialize<DateTime?>(caheItem);
+                date = Deserialize<DateTime?>(caheItem);
                 return true;
             }
             catch
@@ -160,6 +199,17 @@ namespace Simple.Auth.Services.Authentication
         private string Serialize(object obj)
         {
             return JsonSerializer.Serialize(obj, _jsonSerializerOptions);
+        }
+
+        private T Deserialize<T>(string json)
+        {
+            return JsonSerializer.Deserialize<T>(json, _jsonSerializerOptions);
+        }
+
+        public bool IsBlacklisted(string token, out DateTime? date)
+        {
+            var hash = token.GenerateBasicHash();
+            return IsHashBlackListed(hash, out date);
         }
     }
 }
