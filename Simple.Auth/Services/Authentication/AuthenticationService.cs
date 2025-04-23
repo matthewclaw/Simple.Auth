@@ -23,12 +23,18 @@ namespace Simple.Auth.Services
         protected readonly ICorrelationService CorrelationService;
         protected readonly IUserAuthenticator UserAuthenticator;
         protected readonly ICorrelationLogger Logger;
-        protected readonly IAuthenticationCache Cache;
+        protected readonly IAuthenticationCache? Cache;
         protected virtual TimeSpan RefreshTokenLifeSpan => TimeSpan.FromDays(7);
+        public AuthenticationService(IHttpContextAccessor httpContextAccessor,
+    HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
+    ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory)
+            : this(httpContextAccessor, tokenAccessor, tokenService, refreshTokenStore, correlationService, userAuthenticator, loggerFactory, null)
+        {
 
+        }
         public AuthenticationService(IHttpContextAccessor httpContextAccessor,
             HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
-            ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory, IAuthenticationCache cache)
+            ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory, IAuthenticationCache? cache)
         {
             TokenAccessor = tokenAccessor;
             TokenService = tokenService;
@@ -50,10 +56,20 @@ namespace Simple.Auth.Services
             {
                 return SessionState.None;
             }
-            if (await TokenService.ValidateTokenAsync(token) && !string.IsNullOrEmpty(refresh))
+            if(IsTokenBlacklisted(token, out var accessBlacklistedOn))
+            {
+                Logger.LogWarning("Access token was blacklisted on {blacklistedOn}", accessBlacklistedOn);
+                return SessionState.Invalid;
+            }
+            if (await TokenService.ValidateTokenAsync(token) && hasRefresh)
             {
                 Logger.LogDebug("Session is valid");
                 return SessionState.Valid;
+            }
+            if (IsTokenBlacklisted(refresh, out var refreshBlacklistedOn))
+            {
+                Logger.LogWarning("Refresh token was blacklisted on {blacklistedOn}", refreshBlacklistedOn);
+                return SessionState.Invalid;
             }
             if (!await ValidateRefreshTokenAsync(refresh))
             {
@@ -61,6 +77,15 @@ namespace Simple.Auth.Services
                 return SessionState.Invalid;
             }
             return SessionState.RefreshValid;
+        }
+        private bool IsTokenBlacklisted(string token, out DateTime? date)
+        {
+            if (Cache == null)
+            {
+                date = null;
+                return false;
+            }
+            return Cache.IsBlacklisted(token, out date);
         }
         public async Task<(string accessToken, string refreshToken, ClaimsPrincipal principal)> StartSessionAsync(object request)
         {
@@ -75,7 +100,7 @@ namespace Simple.Auth.Services
             var refresh = TokenService.GenerateRefreshToken();
             TokenAccessor.SetToken(token);
             TokenAccessor.SetRefreshToken(refresh);
-            Cache.SetPrincipal(token, userAuthResult.Principal);
+            Cache?.SetPrincipal(token, userAuthResult.Principal);
             await StoreRefreshTokenAsync(refresh);
             return (token, refresh, userAuthResult.Principal!);
         }
@@ -103,8 +128,8 @@ namespace Simple.Auth.Services
             }
             finally
             {
-                Cache.RemoveDetailsAndBlacklistRefreshToken(oldRefresh);
-                Cache.RemovePrincipalAndBlacklistToken(oldAccess);
+                Cache?.RemoveDetailsAndBlacklistRefreshToken(oldRefresh);
+                Cache?.RemovePrincipalAndBlacklistToken(oldAccess);
             }
         }
 
@@ -114,13 +139,13 @@ namespace Simple.Auth.Services
             var expirey = DateTimeOffset.UtcNow + RefreshTokenLifeSpan;
             var refreshTokenDetails = new RefreshTokenDetails(refreshToken, clientIp, expirey);
             await RefreshTokenStore.InsertAsync(refreshTokenDetails);
-            Cache.SetRefreshTokenDetails(refreshToken, refreshTokenDetails);
+            Cache?.SetRefreshTokenDetails(refreshToken, refreshTokenDetails);
         }
 
         private async Task<bool> ValidateRefreshTokenAsync(string refresh)
         {
             RefreshTokenDetails? storedToken = null;
-            var cached = Cache.GetRefreshTokenDetails(refresh);
+            var cached = Cache?.GetRefreshTokenDetails(refresh) ?? AuthenticationCacheResults.None();
             if (cached.CacheType == AuthenticationCacheType.BlackListed)
             {
                 Logger.LogWarning("Refresh token was blacklisted on {blacklistedDate}", cached.BlacklistedOn);
@@ -167,7 +192,7 @@ namespace Simple.Auth.Services
 
         public async Task<AuthenticationResult> AuthenticateAsync(string accessToken)
         {
-            var cached = Cache.GetPrincipal(accessToken);
+            var cached = Cache?.GetPrincipal(accessToken) ?? AuthenticationCacheResults.None();
             switch (cached.CacheType)
             {
                 case AuthenticationCacheType.None:
@@ -193,11 +218,23 @@ namespace Simple.Auth.Services
 
         public async Task EndSessionAsync()
         {
-            if (!this.TokenAccessor.TryGetRefreshToken(out var refresh))
+            var refresh = "";
+            var access = "";
+            var hasRefresh = TokenAccessor.TryGetRefreshToken(out refresh);
+            var hasAccess = TokenAccessor.TryGetToken(out access);
+            if (!hasAccess && !hasRefresh)
             {
                 return;
             }
-            await RefreshTokenStore.BlacklistAsync(refresh);
+            if (hasRefresh)
+            {
+                await RefreshTokenStore.BlacklistAsync(refresh);
+                Cache?.RemoveDetailsAndBlacklistRefreshToken(refresh);
+            }
+            if (hasAccess)
+            {
+                Cache?.RemovePrincipalAndBlacklistToken(access);
+            }
             TokenAccessor.RemoveTokens();
         }
     }
