@@ -21,9 +21,10 @@ using Simple.Auth.Middleware.Handlers.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Auth.Controllers.Conventions;
 using Microsoft.AspNetCore.Authorization;
-using System.Runtime.InteropServices;
 using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
 using System.Diagnostics.CodeAnalysis;
+using Simple.Auth.Services.Authentication;
+using Simple.Auth.Converters;
 
 namespace Simple.Auth
 {
@@ -42,11 +43,22 @@ namespace Simple.Auth
 
             services.AddStores();
             services.AddSchemes(authenticationOptions);
-            services.AddTransient(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
+            services.AddScoped(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
             services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
+            services.AddScoped<IAuthenticationCache, AuthenticationCache>();
+            services.AddCustomJsonConverters();
             return services;
+        }
+
+        private static IServiceCollection AddCustomJsonConverters(this IServiceCollection services)
+        {
+            return services.Configure<JsonOptions>(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
+                options.JsonSerializerOptions.Converters.Add(new ClaimConverter());
+            });
         }
 
         public static MvcOptions AddSimpleAuthControllers(this MvcOptions mvcOptions, Action<AuthControllerConventionOptionsBuilder> options)
