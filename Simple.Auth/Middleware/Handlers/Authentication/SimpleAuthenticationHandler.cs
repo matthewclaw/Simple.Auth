@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Simple.Auth.Interfaces;
@@ -40,9 +42,26 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
             _logger.LogInformation("Refreshing token");
             return await _athenticationService.TryRefreshAccessAsync();
         }
-
+        private bool CheckForBypass()
+        {
+            var request = Context.Request;
+            if (request.Path.Value?.Contains("swagger") ?? false)
+            {
+                return true;
+            }
+            var endpoint = Context.GetEndpoint();
+            if (endpoint?.Metadata?.GetMetadata<AllowAnonymousAttribute>() != null)
+            {
+                return true;
+            }
+            return false;
+        }
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            if (CheckForBypass())
+            {
+                return AuthenticateResult.NoResult();
+            }
             try
             {
                 string errorMessage;

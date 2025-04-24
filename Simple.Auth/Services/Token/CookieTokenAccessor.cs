@@ -19,12 +19,12 @@ namespace Simple.Auth.Services
         /// <summary>
         /// The key used to store the refresh token in the cookie.
         /// </summary>
-        protected virtual string CookieRefreshTokenKey => "refresh_token";
+        protected virtual string CookieRefreshTokenKey => "sa_r_token";
 
         /// <summary>
         /// The key used to store the access token in the cookie.
         /// </summary>
-        protected virtual string CookieAccessTokenTokenKey => "access_token";
+        protected virtual string CookieAccessTokenTokenKey => "sa_token";
         protected readonly CookieAccessorOptions CookieAccessorOptions;
 
         public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor, CookieAccessorOptions options) : base(httpContextAccessor)

@@ -47,12 +47,12 @@ namespace Simple.Auth.Tests.Authentication.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var claimsDictionary = Assert.IsType<Dictionary<string, string>>(okResult.Value);
-
-            Assert.Equal(3, claimsDictionary.Count);
-            Assert.Equal("user123", claimsDictionary[ClaimTypes.NameIdentifier]);
-            Assert.Equal("Test User", claimsDictionary[ClaimTypes.Name]);
-            Assert.Equal("Admin", claimsDictionary["role"]);
+            var actualPrinciple = Assert.IsType<ClaimsPrincipal>(okResult.Value);
+            var actualClaims = actualPrinciple.Claims.ToDictionary(x=>x.Type, x => x.Value);
+            Assert.Equal(3, actualPrinciple.Claims.Count());
+            Assert.Equal("user123", actualClaims[ClaimTypes.NameIdentifier]);
+            Assert.Equal("Test User", actualClaims[ClaimTypes.Name]);
+            Assert.Equal("Admin", actualClaims["role"]);
         }
 
         [Fact]

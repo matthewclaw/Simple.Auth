@@ -21,33 +21,56 @@ using Simple.Auth.Middleware.Handlers.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Simple.Auth.Controllers.Conventions;
 using Microsoft.AspNetCore.Authorization;
-using System.Runtime.InteropServices;
 using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
 using System.Diagnostics.CodeAnalysis;
+using Simple.Auth.Services.Authentication;
+using Simple.Auth.Converters;
 
 namespace Simple.Auth
 {
     [ExcludeFromCodeCoverage]
     public static class Initializer
     {
-        public static IServiceCollection AddSimpleAuth(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)
+        public static IServiceCollection AddSimpleAuthentication(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)
         {
+            services.AddCustomJsonConverters();
+
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
             var authenticationOptions = builder.Build();
-
             services.AddSingleton(authenticationOptions);
 
             services.AddTokenAccessor(authenticationOptions.TokenAccessOptions)
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
             services.AddStores();
+
             services.AddSchemes(authenticationOptions);
-            services.AddTransient(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
+            services.AddScoped(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
+            services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
+
+            services.AddCorrelation();
+            if (!authenticationOptions.CacheDisabled)
+            {
+                services.AddScoped<IAuthenticationCache, AuthenticationCache>();
+            }
+            return services;
+        }
+
+        private static IServiceCollection AddCorrelation(this IServiceCollection services)
+        {
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
-            services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
             return services;
+        }
+
+        private static IServiceCollection AddCustomJsonConverters(this IServiceCollection services)
+        {
+            return services.Configure<JsonOptions>(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new ClaimsPrincipalConverter());
+                options.JsonSerializerOptions.Converters.Add(new ClaimConverter());
+            });
         }
 
         public static MvcOptions AddSimpleAuthControllers(this MvcOptions mvcOptions, Action<AuthControllerConventionOptionsBuilder> options)

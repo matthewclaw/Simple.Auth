@@ -40,8 +40,7 @@ namespace Simple.Auth.Controllers.Authentication
             {
                 return Unauthorized();
             }
-            var claims = GetSerializableClaims(user);
-            return await Task.FromResult(Ok(claims));
+            return await Task.FromResult(Ok(user));
         }
         [AllowAnonymous]
         [HttpPost("login")]

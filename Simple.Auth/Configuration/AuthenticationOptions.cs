@@ -18,15 +18,17 @@ namespace Simple.Auth.Configuration
         public readonly TokenServiceOptions TokenServiceOptions;
         public readonly Type UserAuthenticatorType;
         public readonly List<Action<AuthenticationBuilder>> SchemeAdditions;
+        public readonly bool CacheDisabled;
         public AuthenticationOptions(IConfiguration configuration, TokenAccessOptions tokenAccessOptions, 
             TokenServiceOptions tokenServiceOptions, Type userAuthenticatorType,
-            List<Action<AuthenticationBuilder>> schemeAdditions)
+            List<Action<AuthenticationBuilder>> schemeAdditions, bool cacheDisabled)
         {
             Configuration = configuration;
             TokenAccessOptions = tokenAccessOptions;
             TokenServiceOptions = tokenServiceOptions;
             UserAuthenticatorType = userAuthenticatorType;
-            SchemeAdditions =schemeAdditions;
+            SchemeAdditions = schemeAdditions;
+            CacheDisabled = cacheDisabled;
         }
     }
     public class TokenAccessOptions

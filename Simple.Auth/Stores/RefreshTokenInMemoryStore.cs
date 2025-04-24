@@ -12,7 +12,7 @@ namespace Simple.Auth.Stores
     [ExcludeFromCodeCoverage]
     public class RefreshTokenInMemoryStore : IRefreshTokenStore
     {
-        private Dictionary<string, RefreshToken> _refreshTokens = new Dictionary<string, RefreshToken>();
+        private Dictionary<string, RefreshTokenDetails> _refreshTokens = new Dictionary<string, RefreshTokenDetails>();
         public async Task BlacklistAsync(string refreshToken)
         {
             var storedToken = await GetAsync(refreshToken);
@@ -24,7 +24,7 @@ namespace Simple.Auth.Stores
             _refreshTokens[refreshToken] = storedToken;
         }
 
-        public async Task<RefreshToken> GetAsync(string refreshToken)
+        public async Task<RefreshTokenDetails> GetAsync(string refreshToken)
         {
             if(_refreshTokens.TryGetValue(refreshToken, out var storedToken))
             {
@@ -34,9 +34,11 @@ namespace Simple.Auth.Stores
         }
 
         public async Task<bool> InsertAsync(string refreshToken, string ipAddress, DateTimeOffset expiry)
+        =>await InsertAsync(new RefreshTokenDetails(refreshToken, ipAddress, expiry));
+
+        public async Task<bool> InsertAsync(RefreshTokenDetails details)
         {
-            var token = new RefreshToken(refreshToken, ipAddress, expiry);
-            _refreshTokens[refreshToken] = token;
+            _refreshTokens[details.Token] = details;
             return await Task.FromResult(true);
         }
     }

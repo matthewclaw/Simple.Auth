@@ -22,12 +22,18 @@ namespace Simple.Auth.Services
             _serviceProvider = serviceProvider;
         }
 
-        public CorrelationLoggerFactory(ILoggerFactory internalFactory, IServiceProvider serviceProvider, 
+        private CorrelationLoggerFactory(ILoggerFactory internalFactory, IServiceProvider serviceProvider, 
             ICorrelationService correlationService)
         {
             _internalFactory = internalFactory;
             _serviceProvider = serviceProvider;
             _correlationService = correlationService;
+        }
+
+        public static CorrelationLoggerFactory GetInstance(ILoggerFactory internalFactory, IServiceProvider serviceProvider,
+            ICorrelationService correlationService)
+        {
+            return new CorrelationLoggerFactory(internalFactory, serviceProvider,correlationService);
         }
 
 
