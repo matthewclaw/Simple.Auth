@@ -12,9 +12,11 @@ namespace Simple.Auth.Demo
         {
             var builder = WebApplication.CreateBuilder(args);
             string dummySecret = "yily6zpSs4B4smwRlKtpxzbabSlq/A9fiHZdTxyQl2A=";
+            builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSimpleAuthentication(options =>
             {
                 options.UseCookies();
+                options.DisableCaching();
                 options.WithConfiguration(builder.Configuration);
                 options.WithDefaultTokenService(s => new Auth.Services.JwtTokenService(dummySecret, "me", "you"));
                 options.WithUserAuthenticator<UserAuthenticator>();

@@ -33,6 +33,8 @@ namespace Simple.Auth
     {
         public static IServiceCollection AddSimpleAuthentication(this IServiceCollection services, Action<AuthenticationOptionsBuilder> options)
         {
+            services.AddCustomJsonConverters();
+
             AuthenticationOptionsBuilder builder = new AuthenticationOptionsBuilder();
             options?.Invoke(builder);
             var authenticationOptions = builder.Build();
@@ -42,13 +44,23 @@ namespace Simple.Auth
                 .AddTokenService(authenticationOptions.TokenServiceOptions);
 
             services.AddStores();
+
             services.AddSchemes(authenticationOptions);
             services.AddScoped(typeof(IUserAuthenticator), authenticationOptions.UserAuthenticatorType);
+            services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
+
+            services.AddCorrelation();
+            if (!authenticationOptions.CacheDisabled)
+            {
+                services.AddScoped<IAuthenticationCache, AuthenticationCache>();
+            }
+            return services;
+        }
+
+        private static IServiceCollection AddCorrelation(this IServiceCollection services)
+        {
             services.AddSingleton<ICorrelationLoggerFactory, CorrelationLoggerFactory>();
             services.AddScoped<ICorrelationService, CorrelationService>();
-            services.AddScoped<Interfaces.Authentication.IAuthenticationService, Services.AuthenticationService>();
-            services.AddScoped<IAuthenticationCache, AuthenticationCache>();
-            services.AddCustomJsonConverters();
             return services;
         }
 

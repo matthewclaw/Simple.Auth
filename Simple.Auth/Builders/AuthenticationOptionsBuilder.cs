@@ -22,6 +22,7 @@ namespace Simple.Auth.Builders
         private Type? _tokenServiceType;
         private Type? _userAuthenticatorType;
         private Dictionary<string, Action<AuthenticationBuilder>> _schemeAdditionsMap = new();
+        private bool _disableCache = false;
 
         /// <summary>
         /// Builds the AuthenticationOptions instance based on the configured settings.
@@ -54,7 +55,7 @@ namespace Simple.Auth.Builders
                 throw new InvalidOperationException($".{nameof(WithUserAuthenticator)} must be called");
             }
             var schemeAdditions = _schemeAdditionsMap.Select(x => x.Value).ToList();
-            return new Configuration.AuthenticationOptions(_configuration, tokenAccessOptions, tokenServiceOptions, _userAuthenticatorType, schemeAdditions);
+            return new Configuration.AuthenticationOptions(_configuration, tokenAccessOptions, tokenServiceOptions, _userAuthenticatorType, schemeAdditions, _disableCache);
         }
 
         /// <summary>
@@ -73,6 +74,12 @@ namespace Simple.Auth.Builders
                 throw new InvalidOperationException($"Scheme `{authenticationScheme}` already added.");
             }
             _schemeAdditionsMap.Add(authenticationScheme, (b) => b.AddScheme<AuthenticationSchemeOptions, THandler>(authenticationScheme, displayName, configureOptions));
+            return this;
+        }
+
+        public AuthenticationOptionsBuilder DisableCaching()
+        {
+            _disableCache = true;
             return this;
         }
 
