@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Simple.Auth.Configuration;
-using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Builders
 {

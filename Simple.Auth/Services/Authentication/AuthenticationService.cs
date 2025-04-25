@@ -5,12 +5,7 @@ using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
 using Simple.Auth.Interfaces.Stores;
 using Simple.Auth.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
@@ -30,7 +25,6 @@ namespace Simple.Auth.Services
     ICorrelationService correlationService, IUserAuthenticator userAuthenticator, ICorrelationLoggerFactory loggerFactory)
             : this(httpContextAccessor, tokenAccessor, tokenService, refreshTokenStore, correlationService, userAuthenticator, loggerFactory, null)
         {
-
         }
         public AuthenticationService(IHttpContextAccessor httpContextAccessor,
             HttpTokenAccessor tokenAccessor, ITokenService tokenService, IRefreshTokenStore refreshTokenStore,
@@ -56,7 +50,7 @@ namespace Simple.Auth.Services
             {
                 return SessionState.None;
             }
-            if(IsTokenBlacklisted(token, out var accessBlacklistedOn))
+            if (IsTokenBlacklisted(token, out var accessBlacklistedOn))
             {
                 Logger.LogWarning("Access token was blacklisted on {blacklistedOn}", accessBlacklistedOn);
                 return SessionState.Invalid;
@@ -197,8 +191,10 @@ namespace Simple.Auth.Services
             {
                 case AuthenticationCacheType.None:
                     return await UserAuthenticator.AuthenticateUserAsync(accessToken);
+
                 case AuthenticationCacheType.Principal:
                     return AuthenticationResult.Success(cached.ClaimsPrincipal!);
+
                 case AuthenticationCacheType.BlackListed:
                     Logger.LogWarning("Access Token was blacklisted on {blacklistDate}", cached.BlacklistedOn);
                     return AuthenticationResult.Failure($"Access Token was blacklisted on {cached.BlacklistedOn}");

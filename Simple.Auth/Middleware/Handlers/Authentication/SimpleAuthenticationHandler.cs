@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Simple.Auth.Interfaces;
-using Simple.Auth.Interfaces.Authentication;
-using Simple.Auth.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Middleware.Handlers.Authentication
 {
@@ -29,7 +21,6 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
             _logger = loggerFactory.CreateLogger<SimpleAuthenticationHandler>();
             _refreshThreshold = TimeSpan.FromMinutes(5);
         }
-
 
         private async Task<bool> CheckForAutomaticRefreshAsync()
         {
@@ -74,9 +65,11 @@ namespace Simple.Auth.Middleware.Handlers.Authentication
                     case Enums.SessionState.Valid:
                         stateRefreshed = await CheckForAutomaticRefreshAsync();
                         break;
+
                     case Enums.SessionState.RefreshValid:
                         stateRefreshed = await _athenticationService.TryRefreshAccessAsync();
                         break;
+
                     default:
                     case Enums.SessionState.None:
                     case Enums.SessionState.Invalid:

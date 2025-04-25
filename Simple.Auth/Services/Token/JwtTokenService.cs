@@ -1,12 +1,8 @@
-﻿using Simple.Auth.Interfaces.Authentication;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics.CodeAnalysis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using System.Threading.Tasks;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Simple.Auth.Services
 {
@@ -62,6 +58,7 @@ namespace Simple.Auth.Services
         {
             return await Task.FromResult(ValidateToken(token, true, out _));
         }
+
         private bool ValidateToken(string token, bool validateLifetime, out ClaimsPrincipal? principal)
         {
             var tokenValidationParameters = new TokenValidationParameters

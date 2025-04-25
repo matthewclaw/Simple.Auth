@@ -1,30 +1,22 @@
-﻿using Simple.Auth.Builders;
-using Simple.Auth.Configuration;
-using Simple.Auth.Interfaces.Authentication;
-using Simple.Auth.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Builder;
-using Simple.Auth.Middleware;
-using Simple.Auth.Interfaces;
-using Simple.Auth.Interfaces.Stores;
-using Simple.Auth.Stores;
-using Simple.Auth.Requirements;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication;
-using Simple.Auth.Middleware.Handlers.Authorization;
-using Simple.Auth.Middleware.Handlers.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using Simple.Auth.Controllers.Conventions;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
-using System.Diagnostics.CodeAnalysis;
-using Simple.Auth.Services.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Simple.Auth.Builders;
+using Simple.Auth.Configuration;
+using Simple.Auth.Controllers.Conventions;
 using Simple.Auth.Converters;
+using Simple.Auth.Interfaces;
+using Simple.Auth.Interfaces.Authentication;
+using Simple.Auth.Interfaces.Stores;
+using Simple.Auth.Middleware.Handlers.Authentication;
+using Simple.Auth.Middleware.Handlers.Authorization;
+using Simple.Auth.Requirements;
+using Simple.Auth.Services;
+using Simple.Auth.Services.Authentication;
+using Simple.Auth.Stores;
+using System.Diagnostics.CodeAnalysis;
+using AuthenticationOptions = Simple.Auth.Configuration.AuthenticationOptions;
 
 namespace Simple.Auth
 {

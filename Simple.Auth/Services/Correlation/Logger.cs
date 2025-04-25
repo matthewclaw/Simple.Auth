@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Simple.Auth.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
@@ -14,11 +9,13 @@ namespace Simple.Auth.Services
     {
         private readonly ILogger _internalLogger;
         private readonly ICorrelationService _correlationService;
+
         public Logger(ILoggerFactory loggerFactory, Type catergoryType, ICorrelationService correlationService)
         {
             _internalLogger = loggerFactory.CreateLogger(catergoryType.Name);
             _correlationService = correlationService;
         }
+
         public Logger(ILoggerFactory loggerFactory, string catergoryName, ICorrelationService correlationService)
         {
             _internalLogger = loggerFactory.CreateLogger(catergoryName);

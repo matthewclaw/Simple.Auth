@@ -1,17 +1,13 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Simple.Auth.Interfaces;
 using Simple.Auth.Interfaces.Authentication;
-using Simple.Auth.Services;
 using System.Security.Claims;
 
 namespace Simple.Auth.Controllers.Authentication
 {
     public class AuthenticationControllerBase<TLoginRequest> : ControllerBase where TLoginRequest : class
     {
-
         #region Protected Fields
 
         protected IAuthenticationService AuthenticationService;
@@ -31,6 +27,7 @@ namespace Simple.Auth.Controllers.Authentication
         #endregion Public Constructors
 
         #region Public Methods
+
         [Authorize(Policy = Constants.Policies.DEFAULT)]
         [HttpGet("me")]
         public async Task<IActionResult> GetMeAsync()
@@ -42,6 +39,7 @@ namespace Simple.Auth.Controllers.Authentication
             }
             return await Task.FromResult(Ok(user));
         }
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(TLoginRequest request)
@@ -77,6 +75,7 @@ namespace Simple.Auth.Controllers.Authentication
                 return BadRequest(ex.Message);
             }
         }
+
         #endregion Public Methods
 
         protected Dictionary<string, string> GetSerializableClaims(ClaimsPrincipal principal)
@@ -85,4 +84,3 @@ namespace Simple.Auth.Controllers.Authentication
         }
     }
 }
-

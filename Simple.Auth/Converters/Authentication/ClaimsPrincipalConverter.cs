@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Security.Claims;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Converters
 {
@@ -52,15 +47,19 @@ namespace Simple.Auth.Converters
                             throw new JsonException("Expected StartArray for Claims.");
                         }
                         break;
+
                     case "AuthenticationType":
                         authenticationType = reader.GetString();
                         break;
+
                     case "NameClaimType":
                         nameClaimType = reader.GetString();
                         break;
+
                     case "RoleClaimType":
                         roleClaimType = reader.GetString();
                         break;
+
                     default:
                         // Ignore unknown properties
                         break;

@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Simple.Auth.Configuration;
-using Simple.Auth.Interfaces.Authentication;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
@@ -25,6 +19,7 @@ namespace Simple.Auth.Services
         /// The key used to store the access token in the cookie.
         /// </summary>
         protected virtual string CookieAccessTokenTokenKey => "sa_token";
+
         protected readonly CookieAccessorOptions CookieAccessorOptions;
 
         public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor, CookieAccessorOptions options) : base(httpContextAccessor)
@@ -35,9 +30,8 @@ namespace Simple.Auth.Services
         /// <summary>
         /// To only be used in unit testing substitues
         /// </summary>
-        public CookieTokenAccessor():this(null, new CookieAccessorOptions())
+        public CookieTokenAccessor() : this(null, new CookieAccessorOptions())
         {
-
         }
 
         public CookieTokenAccessor(IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)

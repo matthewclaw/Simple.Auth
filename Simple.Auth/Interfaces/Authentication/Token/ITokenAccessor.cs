@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Simple.Auth.Interfaces.Authentication
+﻿namespace Simple.Auth.Interfaces.Authentication
 {
-    public interface ITokenAccessor: IHttpContextSwitchable
+    public interface ITokenAccessor : IHttpContextSwitchable
     {
         /// <summary>
         /// This method will try get the access or session token from the request
