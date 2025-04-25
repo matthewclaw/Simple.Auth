@@ -1,12 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Simple.Auth.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Services
 {
@@ -16,13 +11,14 @@ namespace Simple.Auth.Services
         private readonly ILoggerFactory _internalFactory;
         private readonly IServiceProvider _serviceProvider;
         private readonly ICorrelationService? _correlationService;
+
         public CorrelationLoggerFactory(ILoggerFactory internalFactory, IServiceProvider serviceProvider)
         {
             _internalFactory = internalFactory;
             _serviceProvider = serviceProvider;
         }
 
-        private CorrelationLoggerFactory(ILoggerFactory internalFactory, IServiceProvider serviceProvider, 
+        private CorrelationLoggerFactory(ILoggerFactory internalFactory, IServiceProvider serviceProvider,
             ICorrelationService correlationService)
         {
             _internalFactory = internalFactory;
@@ -33,9 +29,8 @@ namespace Simple.Auth.Services
         public static CorrelationLoggerFactory GetInstance(ILoggerFactory internalFactory, IServiceProvider serviceProvider,
             ICorrelationService correlationService)
         {
-            return new CorrelationLoggerFactory(internalFactory, serviceProvider,correlationService);
+            return new CorrelationLoggerFactory(internalFactory, serviceProvider, correlationService);
         }
-
 
         public void AddProvider(ILoggerProvider provider)
         {
@@ -44,7 +39,7 @@ namespace Simple.Auth.Services
 
         public ILogger CreateLogger(string categoryName)
         {
-            if(_correlationService!= null)
+            if (_correlationService != null)
             {
                 return new Logger(_internalFactory, categoryName, _correlationService);
             }
@@ -64,6 +59,5 @@ namespace Simple.Auth.Services
         {
             _internalFactory?.Dispose();
         }
-
     }
 }

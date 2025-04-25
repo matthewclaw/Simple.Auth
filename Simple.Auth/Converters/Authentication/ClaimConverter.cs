@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Security.Claims;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace Simple.Auth.Converters
 {
@@ -41,18 +36,23 @@ namespace Simple.Auth.Converters
                         case "Type":
                             type = reader.GetString();
                             break;
+
                         case "Value":
                             value = reader.GetString();
                             break;
+
                         case "ValueType":
                             valueType = reader.GetString();
                             break;
+
                         case "Issuer":
                             issuer = reader.GetString();
                             break;
+
                         case "OriginalIssuer":
                             originalIssuer = reader.GetString();
                             break;
+
                         default:
                             // Ignore unknown properties
                             break;

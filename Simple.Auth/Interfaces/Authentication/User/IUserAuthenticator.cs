@@ -1,15 +1,9 @@
 ﻿using Simple.Auth.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Interfaces.Authentication
 {
     public interface IUserAuthenticator
     {
-        
         /// <summary>
         /// Authenticates a user asynchronously based on the provided request.
         /// </summary>

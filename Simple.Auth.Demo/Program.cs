@@ -15,7 +15,6 @@ namespace Simple.Auth.Demo
             builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSimpleAuthentication(options =>
             {
-                options.UseCookies();
                 options.DisableCaching();
                 options.WithConfiguration(builder.Configuration);
                 options.WithDefaultTokenService(s => new Auth.Services.JwtTokenService(dummySecret, "me", "you"));

@@ -1,20 +1,13 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using Simple.Auth.Converters;
 using Simple.Auth.Helpers;
 using Simple.Auth.Interfaces.Stores;
 using Simple.Auth.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Simple.Auth.Services.Authentication
 {
@@ -29,9 +22,10 @@ namespace Simple.Auth.Services.Authentication
         private readonly JsonSerializerOptions _jsonSerializerOptions;
 
         [ExcludeFromCodeCoverage]
-        public AuthenticationCache(IOptions<JsonOptions> jsonOptions) : this(null,jsonOptions)
+        public AuthenticationCache(IOptions<JsonOptions> jsonOptions) : this(null, jsonOptions)
         {
         }
+
         public AuthenticationCache(IDistributedCache? cache, IOptions<JsonOptions> jsonOptions)
         {
             _cache = cache;
@@ -42,7 +36,7 @@ namespace Simple.Auth.Services.Authentication
 
         public AuthenticationCacheResults GetPrincipal(string accessToken)
         {
-            if(_cache == null)
+            if (_cache == null)
             {
                 return AuthenticationCacheResults.None();
             }
@@ -135,7 +129,7 @@ namespace Simple.Auth.Services.Authentication
             var hash = accessToken.GenerateBasicHash();
             var key = GetPrincipalKey(hash);
             var serialized = Serialize(principal);
-            _cache.SetString(key, serialized,_defaultOptions);
+            _cache.SetString(key, serialized, _defaultOptions);
         }
 
         public void SetRefreshTokenDetails(string refreshToken, RefreshTokenDetails tokenDetails)
@@ -157,7 +151,7 @@ namespace Simple.Auth.Services.Authentication
                 return;
             }
             var key = BLACKLISTED_KEY_PREFIX + hash;
-            var serialized =Serialize(date);
+            var serialized = Serialize(date);
             _cache.SetString(key, serialized);
         }
 
@@ -170,6 +164,7 @@ namespace Simple.Auth.Services.Authentication
         {
             return REFRESH_TOKEN_KEY_PREFIX + refreshTokenHash;
         }
+
         public bool IsHashBlackListed(string hash, out DateTime? date)
         {
             if (_cache == null)
@@ -194,8 +189,8 @@ namespace Simple.Auth.Services.Authentication
                 date = null;
                 return false;
             }
-
         }
+
         private string Serialize(object obj)
         {
             return JsonSerializer.Serialize(obj, _jsonSerializerOptions);
